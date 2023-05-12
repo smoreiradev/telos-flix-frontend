@@ -1,4 +1,5 @@
-import * as React from "react";
+import { useState } from "react";
+
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -7,7 +8,6 @@ import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
@@ -15,12 +15,13 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { Home, Search } from "@mui/icons-material";
-import PrimaryGradientButton from "../primaryGrandientButton";
-import SecondaryGradientButton from "../secondaryGrandientButton";
 import logo from "./Brand.png";
 import LoginButton from "../loginButton";
 import CreateAccountButton from "../createAccountButton";
 import AppBarActions from "../appBarActions";
+import CustomModal from "../customModal";
+import LoginModalContent from "../loginModalContent";
+import CreateAccountModalContent from "../createAccountModalContent";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -93,8 +94,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
   })
 );
 
-export default function MiniDrawer() {
+export default function Header() {
   const theme = useTheme();
+  const [open, setOpen] = useState(false);
+  const [contentToShow, setContentToShow] = useState(<></>);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -107,7 +110,28 @@ export default function MiniDrawer() {
           }}
         >
           <img src={logo} alt="logo" />
-          <AppBarActions actions={[<CreateAccountButton />, <LoginButton />]} />
+          <AppBarActions
+            actions={[
+              <CreateAccountButton
+                onClick={() => {
+                  setContentToShow(<CreateAccountModalContent />);
+                  setOpen(true);
+                }}
+              />,
+              <LoginButton
+                onClick={() => {
+                  setContentToShow(
+                    <LoginModalContent
+                      setCreateAccountContent={() => {
+                        setContentToShow(<CreateAccountModalContent />);
+                      }}
+                    />
+                  );
+                  setOpen(true);
+                }}
+              />,
+            ]}
+          />
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent">
@@ -154,6 +178,7 @@ export default function MiniDrawer() {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
       </Box>
+      <CustomModal open={open} setOpen={setOpen} content={contentToShow} />
     </Box>
   );
 }

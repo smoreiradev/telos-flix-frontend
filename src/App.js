@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <div style={{ marginLeft: "170px" }}>
+      <div style={{ marginLeft: "70px" }}>
         <AppRoutes />
       </div>
     </div>

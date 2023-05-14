@@ -8,10 +8,31 @@ import SecondaryGradientButton from "../secondaryGrandientButton";
 import { AddBoxOutlined } from "@mui/icons-material";
 import CustomOutlinedInput from "../customOutlinedInput";
 import PasswordOutlinedInput from "../passwordOutlinedInput";
+import { AuthContext } from "../../contexts/AuthContext";
+import { useContext } from "react";
 
 export default function LoginModalContent({ setCreateAccountContent }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+    const { login } = useContext(AuthContext);
+  
+    const handleLogin = async (e) => {
+      e.preventDefault(); // Prevent form submission
+      
+      if (!email || !password) {
+        alert("Please enter your email and password.");
+        return;
+      }
+  
+      try {
+        await login(email, password);
+        alert("Login successful!");
+      } catch (error) {
+        console.error("Login error:", error);
+        alert("Login failed. Please try again.");
+      }
+    };   
 
   return (
     <div className="loginModalContent">
@@ -43,7 +64,7 @@ export default function LoginModalContent({ setCreateAccountContent }) {
             <PasswordOutlinedInput setValue={setPassword} />
           </div>
           <div className="buttonsSection">
-            <PrimaryGradientButton text="Entrar" />
+            <PrimaryGradientButton text="Entrar" type="submit" onSubmit={handleLogin}/>
             <SecondaryGradientButton text="Quero criar uma conta" onClick={setCreateAccountContent} icon={<AddBoxOutlined />} />
           </div>
         </FormControl>

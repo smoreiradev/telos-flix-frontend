@@ -6,7 +6,7 @@ export default function MovieProvider({ children }) {
   const [movies, setMovies] = useState([]);
   useEffect(() => {
     axios
-      .get("https://my-json-server.typicode.com/horizon-code-academy/fake-movies-api/db")
+      .get("http://localhost:3333/movies")
       .then((response) => {
         console.log(response.data.movies)
         setMovies(response.data.movies);

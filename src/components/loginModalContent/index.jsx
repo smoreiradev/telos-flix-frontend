@@ -43,7 +43,7 @@ export default function LoginModalContent({ setCreateAccountContent }) {
         </div>
       </div>
       <div className="secondSection">
-        <FormControl sx={{ m: 1, width: "366px" }}>
+        <form onSubmit={handleLogin} sx={{ m: 1, width: "366px" }}>
           <div className="inputContainer">
             <label className="inputLabel">Email</label>
             <CustomOutlinedInput
@@ -67,7 +67,7 @@ export default function LoginModalContent({ setCreateAccountContent }) {
             <PrimaryGradientButton text="Entrar" type="submit" onSubmit={handleLogin}/>
             <SecondaryGradientButton text="Quero criar uma conta" onClick={setCreateAccountContent} icon={<AddBoxOutlined />} />
           </div>
-        </FormControl>
+        </form>
       </div>
     </div>
   );

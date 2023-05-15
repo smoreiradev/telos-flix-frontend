@@ -7,7 +7,7 @@ const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      const response = await fetch('${apiURL}/authenticate', {
+  const response = await fetch(`${apiURL}/authenticate `, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

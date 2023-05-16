@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -22,6 +22,7 @@ import AppBarActions from "../appBarActions";
 import CustomModal from "../customModal";
 import LoginModalContent from "../loginModalContent";
 import CreateAccountModalContent from "../createAccountModalContent";
+import { AuthenticateContext } from "../../contexts/AuthenticateContext";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -95,6 +96,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" 
 );
 
 export default function Header() {
+  const { savedUser } = useContext(AuthenticateContext)
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [contentToShow, setContentToShow] = useState(<></>);
@@ -110,7 +112,8 @@ export default function Header() {
           }}
         >
           <img src={logo} alt="logo" />
-          <AppBarActions
+          {savedUser?.name}
+          {!savedUser?.name && <AppBarActions
             actions={[
               <CreateAccountButton
                 onClick={() => {
@@ -131,7 +134,7 @@ export default function Header() {
                 }}
               />,
             ]}
-          />
+          />}
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent">

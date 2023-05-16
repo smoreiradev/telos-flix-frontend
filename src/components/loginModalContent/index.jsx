@@ -9,7 +9,6 @@ import { AddBoxOutlined } from "@mui/icons-material";
 import CustomOutlinedInput from "../customOutlinedInput";
 import PasswordOutlinedInput from "../passwordOutlinedInput";
 import { AuthContext } from "../../contexts/AuthContext";
-import response from "../../contexts/AuthContext";
 import { useContext } from "react";
 
 export default function LoginModalContent({ setCreateAccountContent }) {
@@ -29,6 +28,9 @@ export default function LoginModalContent({ setCreateAccountContent }) {
       try {
         await login(email, password);
         alert("Login successful!");
+        //store user credentials in localStorage
+        localStorage.setItem("storedEmail", email);
+        localStorage.setItem("storedPassword", password);
       } catch (error) {
         console.error("Login error:", error);
         alert("Login failed. Please try again.");

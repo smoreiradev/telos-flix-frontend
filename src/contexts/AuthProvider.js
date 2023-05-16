@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { AuthContext } from "./AuthContext";
+import axios from "axios";
 
 const AuthProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(null);
@@ -7,12 +8,9 @@ const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      const response = await fetch(`${apiURL}/authenticate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
+      const response = await axios.post(`${apiURL}/authenticate`, {
+        username,
+        password
       });
   
       if (response.status === 200) {

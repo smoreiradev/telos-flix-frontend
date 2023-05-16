@@ -27,13 +27,11 @@ export default function LoginModalContent({ setCreateAccountContent }) {
   
       try {
         await login(email, password);
-        alert("Login successful!");
         //store user credentials in localStorage
         localStorage.setItem("storedEmail", email);
         localStorage.setItem("storedPassword", password);
       } catch (error) {
         console.error("Login error:", error);
-        alert("Login failed. Please try again.");
       }
     };   
 

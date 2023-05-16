@@ -13,6 +13,10 @@ function CreateAccountModalContent() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  function newUserCredentials(email, password) {
+    console.log(email); 
+  }
+
   return (
     <div className="createAccountModalContent">
       <div className="firstSection">
@@ -89,7 +93,7 @@ function CreateAccountModalContent() {
             label="Aceito os termos de uso da plataforma"
           />
           <div className="buttonsSection">
-            <PrimaryGradientButton text="Entrar" />
+            <PrimaryGradientButton text="Entrar" onSubmit={newUserCredentials}/>
           </div>
         </FormControl>
       </div>

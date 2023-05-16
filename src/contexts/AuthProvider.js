@@ -7,7 +7,7 @@ const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-  const response = await fetch(`${apiURL}/authenticate `, {
+      const response = await fetch(`${apiURL}/authenticate`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -15,18 +15,22 @@ const AuthProvider = ({ children }) => {
         body: JSON.stringify({ username, password })
       });
   
-      if (response.ok) {
+      if (response.status === 200) {
         const data = await response.json();
         const token = data.token;
         setAuthToken(token);
-        console.log('Login successful:', data); 
+        alert('Login successful!');
+      } else if (response.status === 401) {
+        alert('Invalid credentials. Please try again.');
       } else {
-        throw new Error('Authentication failed');
+        alert('Login failed. Please try again.');
       }
     } catch (error) {
-      console.error(error);
+      console.error('Login error:', error);
+      alert('Login failed. Please try again.');
     }
   };
+  
   
   const logout = () => {
     setAuthToken(null);

@@ -30,6 +30,7 @@ export default function LoginModalContent({ setCreateAccountContent }) {
         //store user credentials in localStorage
         localStorage.setItem("storedEmail", email);
         localStorage.setItem("storedPassword", password);
+        //calls the function to redirect the logged user
       } catch (error) {
         console.error("Login error:", error);
       }

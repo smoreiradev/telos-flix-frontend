@@ -16,7 +16,6 @@ export default function LoginModalContent({ setCreateAccountContent }) {
   const [password, setPassword] = useState("");
 
   const onLoginButtonClicked = () => {
-    console.log(`a`)
     login({ email, password })
   }
 

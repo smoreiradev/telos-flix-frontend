@@ -8,7 +8,6 @@ export default function MovieProvider({ children }) {
     axios
       .get("https://my-json-server.typicode.com/horizon-code-academy/fake-movies-api/db")
       .then((response) => {
-        console.log(response.data.movies)
         setMovies(response.data.movies);
       })
       .catch((error) => {

@@ -6,16 +6,20 @@ import { ProtectRoutes } from './hooks/protectRoutes';
 import Video from "./pages/video";
 import AppRoutes from "./routes";
 import AuthenticateProvider from "./contexts/AuthenticateProvider";
+import { BrowserRouter } from "react-router-dom";
+import AppProvider from "./hooks";
 
 function App() {
   return (
     <div className="App">
-      <AuthenticateProvider>
-        <Header />
-      <div style={{ marginLeft: "170px" }}>
-        <AppRoutes />
-      </div>
-      </AuthenticateProvider>
+      <BrowserRouter>
+        <AppProvider>
+          <Header />
+          <div style={{ marginLeft: "170px" }}>
+            <AppRoutes />
+          </div>
+        </AppProvider>
+      </BrowserRouter>
     </div>
   );
 }

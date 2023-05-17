@@ -4,33 +4,33 @@ import Home from "./pages/home";
 import Video from "./pages/video";
 import MovieProvider from "./contexts/MovieProvider";
 import AppProvider from "./hooks";
+import { ProtectRoutes } from "./hooks/protectRoutes";
 export default function AppRoutes() {
   return (
-    <BrowserRouter>
-      <AppProvider>
-        <Routes>
+    <Routes>
+      <Route element={<Home />} path="/" exact />
+      <Route
+        element={
+          <MovieProvider>
+            <Video />
+          </MovieProvider>
+        }
+        path="/video"
+        exact
+      />
+      <Route element={
+        <ProtectRoutes />
+      }>
+        <Route
+          element={
+            <MovieProvider>
+              <Video />
+            </MovieProvider>
+          }
+          path="/video/:id"
+        />
+      </Route>
+    </Routes>
 
-          <Route element={<Home />} path="/" exact />
-
-          <Route
-            element={
-              <MovieProvider>
-                <Video />
-              </MovieProvider>
-            }
-            path="/video"
-            exact
-          />
-          <Route
-            element={
-              <MovieProvider>
-                <Video />
-              </MovieProvider>
-            }
-            path="/video/:id"
-          />
-        </Routes>
-      </AppProvider>
-    </BrowserRouter>
   );
 }

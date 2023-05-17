@@ -1,8 +1,8 @@
-import { UserProvider } from './auth';
+import AuthenticateProvider from "../contexts/AuthenticateProvider";
 
 const AppProvider = ({ children }) => (
     <>
-        <UserProvider>{ children }</UserProvider>
+        <AuthenticateProvider>{ children }</AuthenticateProvider>
     </>
 );
 

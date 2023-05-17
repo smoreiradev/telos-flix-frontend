@@ -1,10 +1,12 @@
 import { Checkbox, FormControl, FormControlLabel, IconButton, InputAdornment } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CustomOutlinedInput from "../customOutlinedInput";
 import { EmailOutlined, PersonOutlined, PhoneOutlined } from "@mui/icons-material";
 import PasswordOutlinedInput from "../passwordOutlinedInput";
 import PrimaryGradientButton from "../primaryGrandientButton";
 import "./index.css";
+import { AuthContext } from "../../contexts/AuthContext";
+
 function CreateAccountModalContent() {
   const [name, setname] = useState("");
   const [email, setEmail] = useState("");
@@ -13,9 +15,25 @@ function CreateAccountModalContent() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  function newUserCredentials(email, password) {
-    console.log(email); 
-  }
+  const { register } = useContext(AuthContext);
+  const handleRegister = async(e) => {
+    e.preventDefault() //Prevent form submission
+
+    if(!name || !email || !phone || !birthDate || !password || !confirmPassword ) {
+      alert("Please fill in all blank fields");
+      return;
+    }
+
+    try {
+      await register(name, email, password);
+      //store user credentials in localStorage
+      localStorage.setItem("storedName", name);
+      localStorage.setItem("storedEmail", email);
+      localStorage.setItem("storedPassword", password);
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  };
 
   return (
     <div className="createAccountModalContent">
@@ -78,7 +96,7 @@ function CreateAccountModalContent() {
         </FormControl>
       </div>
       <div className="secondSection">
-        <FormControl sx={{ m: 1, width: "366px" }}>
+        <form sx={{ m: 1, width: "366px" }} onSubmit={handleRegister}>
           <div className="inputContainer" style={{ marginTop: "56px" }}>
             <label className="inputLabel">Senha</label>
             <PasswordOutlinedInput setValue={setPassword} />
@@ -93,9 +111,9 @@ function CreateAccountModalContent() {
             label="Aceito os termos de uso da plataforma"
           />
           <div className="buttonsSection">
-            <PrimaryGradientButton text="Entrar" onSubmit={newUserCredentials}/>
+            <PrimaryGradientButton text="Entrar"/>
           </div>
-        </FormControl>
+        </form>
       </div>
     </div>
   );

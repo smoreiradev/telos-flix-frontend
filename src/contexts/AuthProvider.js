@@ -8,27 +8,50 @@ const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     try {
-      const response = await axios.post(`${apiURL}/authenticate`, {
-        username,
+      const loginResponse = await axios.post(`${apiURL}/authenticate/login`, {
+        identifier: username,
         password
       });
   
-      if (response.status === 200) {
-        const data = await response.json();
-        const token = data.token;
+      if (loginResponse.status === 200) {
+        const token = loginResponse.data.jwt;
         setAuthToken(token);
         alert('Login successful!');
-      } else if (response.status === 401) {
+      } else if (loginResponse.status === 401) {
         alert('Invalid credentials. Please try again.');
       } else {
         alert('Login failed. Please try again.');
       }
     } catch (error) {
       console.error('Login error:', error);
-      alert('Login failed. Please try again.');
-    }
+    
+      if (error.response && error.response.data) {
+        const errorMessage = error.response.data.message;
+        alert(`Login failed: ${errorMessage}`);
+      } else {
+        alert('Login failed. Please try again.');
+      }
+    }    
   };
   
+  const register = async (username, email, password) => {
+    try {
+      const registerResponse = await axios.post(`${apiURL}/users`, {
+        username,
+        email,
+        password,
+      });
+
+      if (registerResponse.status === 201) {
+        alert('Registration successful!');
+      } else {
+        alert('Registration failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('Registration failed. Please try again.');
+    }  
+  };
   
   const logout = () => {
     setAuthToken(null);
@@ -37,13 +60,14 @@ const AuthProvider = ({ children }) => {
   const AuthContextValue = {
     authToken,
     login,
+    register,
   };
 
-  return(
+  return (
     <AuthContext.Provider value={AuthContextValue}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-export default AuthProvider; 
+export default AuthProvider;

@@ -1,4 +1,3 @@
-import { Box } from "@mui/material";
 import React from "react";
 import MainVideo from "../../components/mainVideo";
 import Trending from "../../components/trending";

@@ -7,30 +7,30 @@ import AppProvider from "./hooks";
 export default function AppRoutes() {
   return (
     <BrowserRouter>
-        <AppProvider>
-      <Routes>
+      <AppProvider>
+        <Routes>
 
-        <Route element={<Home />} path="/" exact />
+          <Route element={<Home />} path="/" exact />
 
-        <Route
-          element={
-            <MovieProvider>
-              <Video />
-            </MovieProvider>
-          }
-          path="/video"
-          exact
+          <Route
+            element={
+              <MovieProvider>
+                <Video />
+              </MovieProvider>
+            }
+            path="/video"
+            exact
           />
-        <Route
-          element={
-            <MovieProvider>
-              <Video />
-            </MovieProvider>
-          }
-          path="/video/:id"
+          <Route
+            element={
+              <MovieProvider>
+                <Video />
+              </MovieProvider>
+            }
+            path="/video/:id"
           />
-      </Routes>
-          </AppProvider>
+        </Routes>
+      </AppProvider>
     </BrowserRouter>
   );
 }

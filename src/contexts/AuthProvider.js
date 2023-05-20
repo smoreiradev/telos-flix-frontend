@@ -4,7 +4,6 @@ import axios from "axios";
 
 const AuthProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState(null);
-  const [data, setData] = useState(null);
   const apiURL = 'http://localhost:3333';
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -16,9 +15,8 @@ const AuthProvider = ({ children }) => {
       });
   
       if (loginResponse.status === 200) {
-        const { user, token } = loginResponse.data;
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        setData({ user, token });
+        const token = loginResponse.data.jwt;
+        setAuthToken(token);
         setIsAuthenticated(true);
         alert('Login successful!');
 

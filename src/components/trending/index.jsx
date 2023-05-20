@@ -1,27 +1,20 @@
 import { SignalCellularAltOutlined } from "@mui/icons-material";
-import React from "react";
+import React, { useContext } from "react";
 import "./index.css";
 import MiniVideoCard from "../miniVideoCard";
+import { MovieContext } from "../../contexts/MovieContext";
+
 function Trending() {
-  const videos = [
-    {
-      title: "Video 1",
-    },
-    {
-      title: "Video 2",
-    },
-    {
-      title: "Video 3",
-    },
-  ];
+  const [ moviesData ] = useContext(MovieContext);
+
   return (
     <div className="trendingSection">
       <div className="labelSection">
         <SignalCellularAltOutlined /> Em alta
       </div>
       <div className="trendingVideosGrid">
-        {videos.map((video) => (
-          <MiniVideoCard title={video.title}/>
+        {moviesData.map((movie) => (
+          <MiniVideoCard key={movie.id} title={movie.title} />
         ))}
       </div>
     </div>

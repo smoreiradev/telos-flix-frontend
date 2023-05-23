@@ -13,9 +13,7 @@ function Trending() {
         <SignalCellularAltOutlined /> Em alta
       </div>
       <div className="trendingVideosGrid">
-        {moviesData.map((movie) => (
-          <MiniVideoCard key={movie.id} title={movie.title} />
-        ))}
+        
       </div>
     </div>
   );

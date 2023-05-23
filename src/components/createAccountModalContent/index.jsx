@@ -5,33 +5,31 @@ import { EmailOutlined, PersonOutlined, PhoneOutlined } from "@mui/icons-materia
 import PasswordOutlinedInput from "../passwordOutlinedInput";
 import PrimaryGradientButton from "../primaryGrandientButton";
 import "./index.css";
-import { AuthContext } from "../../contexts/AuthContext";
+import AuthContext from "../../contexts/AuthProvider";
+import axios from "axios";
+
 
 function CreateAccountModalContent() {
-  const [name, setname] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [birthDate, SetBirthDate] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  const [role, setRole] = useState("customer");
   const { register } = useContext(AuthContext);
-  const handleRegister = async(e) => {
-    e.preventDefault() //Prevent form submission
 
-    if(!name || !email || !phone || !birthDate || !password || !confirmPassword ) {
-      alert("Please fill in all blank fields");
-      return;
+  const handleSignUp = async() => {
+    if(!name || !email || !password ||!phone ||!birthDate ||!confirmPassword){
+       return alert("Preencha todos os campos")
     }
-
+    
     try {
-      await register(name, email, password);
-      //store user credentials in localStorage
-      localStorage.setItem("storedName", name);
-      localStorage.setItem("storedEmail", email);
-      localStorage.setItem("storedPassword", password);
+      await register(name, email, password, phone, birthDate, confirmPassword);
+      alert("Usuário cadastrado com sucesso!");
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("Registration error:", error);
+      alert("Erro ao cadastrar usuário. Por favor, tente novamente.");
     }
   };
 
@@ -43,7 +41,8 @@ function CreateAccountModalContent() {
           <div className="inputContainer" style={{ marginTop: "56px" }}>
             <label className="inputLabel">Nome</label>
             <CustomOutlinedInput
-              setValue={setname}
+              setValue={setName}
+              onChange={e => setName(e.target.value)}
               placeholder="Nome"
               type="text"
               startAdornment={
@@ -59,6 +58,7 @@ function CreateAccountModalContent() {
             <label className="inputLabel">E-mail</label>
             <CustomOutlinedInput
               setValue={setEmail}
+              onChange={e => setEmail(e.target.value)}
               placeholder="E-mail"
               type="text"
               startAdornment={
@@ -74,6 +74,7 @@ function CreateAccountModalContent() {
             <label className="inputLabel">Celular</label>
             <CustomOutlinedInput
               setValue={setPhone}
+              onChange={e => setPhone(e.target.value)}
               placeholder="Celular"
               type="text"
               startAdornment={
@@ -89,6 +90,7 @@ function CreateAccountModalContent() {
             <label className="inputLabel">Data de nascimento</label>
             <CustomOutlinedInput
               setValue={SetBirthDate}
+              onChange={e => SetBirthDate(e.target.value)}
               placeholder="Data de nascimento"
               type="date"
             />
@@ -96,14 +98,14 @@ function CreateAccountModalContent() {
         </FormControl>
       </div>
       <div className="secondSection">
-        <form sx={{ m: 1, width: "366px" }} onSubmit={handleRegister}>
+        <FormControl sx={{ m: 1, width: "366px" }}>
           <div className="inputContainer" style={{ marginTop: "56px" }}>
             <label className="inputLabel">Senha</label>
-            <PasswordOutlinedInput setValue={setPassword} />
+            <PasswordOutlinedInput setValue={setPassword} onChange={e => setPassword(e.target.value)}/>
           </div>
           <div className="inputContainer" style={{ marginTop: "46px" }}>
             <label className="inputLabel">Confirmar Senha</label>
-            <PasswordOutlinedInput setValue={setConfirmPassword} placeholder="Confirmar Senha" />
+            <PasswordOutlinedInput setValue={setConfirmPassword} onChange={e => setConfirmPassword(e.target.value)}placeholder="Confirmar Senha" />
           </div>
           <FormControlLabel
             sx={{ marginTop: "42px" }}
@@ -111,9 +113,9 @@ function CreateAccountModalContent() {
             label="Aceito os termos de uso da plataforma"
           />
           <div className="buttonsSection">
-            <PrimaryGradientButton text="Entrar"/>
+            <PrimaryGradientButton text="Entrar" onClick={handleSignUp}/>
           </div>
-        </form>
+        </FormControl>
       </div>
     </div>
   );

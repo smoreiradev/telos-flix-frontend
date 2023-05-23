@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { AuthContext } from "./AuthContext";
 import axios from "axios";
 
-const AuthProvider = ({ children }) => {
+const apiURL = 'http://localhost:3333';
+
+export default function AuthProvider ({ children }) {
   const [authToken, setAuthToken] = useState(null);
-  const apiURL = 'http://localhost:3333';
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);  
 
   const login = async (username, password) => {
     try {
@@ -19,7 +20,7 @@ const AuthProvider = ({ children }) => {
         setAuthToken(token);
         setIsAuthenticated(true);
         alert('Login successful!');
-
+  
       } else if (loginResponse.status === 401) {
         alert('Invalid credentials. Please try again.');
       } else {
@@ -36,8 +37,8 @@ const AuthProvider = ({ children }) => {
       }
     }
   };
-  
-  const register = async (name, email, password, phone, birthDate, confirmPassword) => {
+
+  const register= async(name, email, password, phone, birthDate, confirmPassword) => {
     try{
       const registerResponse = await axios.post(`${apiURL}/users`, {
         data: {
@@ -47,9 +48,10 @@ const AuthProvider = ({ children }) => {
           phone,
           birthDate,
           confirmPassword,
+          role:"user",
         }
       });
-
+  
       if (registerResponse.status === 201) {
         alert('Registration successful!');
       } else {
@@ -63,15 +65,13 @@ const AuthProvider = ({ children }) => {
   
   const logout = () => {
     setAuthToken(null);
-  };  
+  };
 
   const AuthContextValue = {
     authToken,
     login,
-    register,
+    register:register,
   };
-
-  
 
   return(
     <AuthContext.Provider value={AuthContextValue}>
@@ -79,5 +79,3 @@ const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 }
-
-export default AuthProvider;

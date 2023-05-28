@@ -15,23 +15,23 @@ export default function LoginModalContent({ setCreateAccountContent }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-    const { login } = useContext(AuthContext);
-  
-    const handleLogin = async (e) => {
-      e.preventDefault(); // Prevent form submission
-      
-      if (!email || !password) {
-        alert("Please enter your email and password.");
-        return;
-      }
-  
-      try {
-        await login(email, password);
-        console.log("Login successful!")
-      } catch (error) {
-        console.error("Login error:", error);
-      }
-    };   
+  const { login } = useContext(AuthContext);
+
+  const handleLogin = async (e) => {
+    e.preventDefault(); // Prevent form submission
+
+    if (!email || !password) {
+      alert("Please enter your email and password.");
+      return;
+    }
+
+    try {
+      await login({ email, password }); // Pass an object containing email and password
+      console.log("Login successful!");
+    } catch (error) {
+      console.error("Login error:", error);
+    }
+  };
 
   return (
     <div className="loginModalContent">
@@ -63,8 +63,12 @@ export default function LoginModalContent({ setCreateAccountContent }) {
             <PasswordOutlinedInput setValue={setPassword} />
           </div>
           <div className="buttonsSection">
-            <PrimaryGradientButton text="Entrar" type="submit" onSubmit={handleLogin}/>
-            <SecondaryGradientButton text="Quero criar uma conta" onClick={setCreateAccountContent} icon={<AddBoxOutlined />} />
+            <PrimaryGradientButton text="Entrar" type="submit" />
+            <SecondaryGradientButton
+              text="Quero criar uma conta"
+              onClick={setCreateAccountContent}
+              icon={<AddBoxOutlined />}
+            />
           </div>
         </form>
       </div>

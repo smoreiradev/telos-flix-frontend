@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
 import axios from "axios";
 
 const apiURL = 'http://localhost:3333';
 
 export default function AuthProvider ({ children }) { 
+  const [isLoggedIn, setisLoggedIn] = useState(false);
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    // Check if the user is already logged in
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const userData = JSON.parse(storedUser);
+      setisLoggedIn(true);
+      setUsername(userData.username);
+    }
+  }, []);
 
   const login = async ({email, password}) => {
     try {
@@ -15,16 +27,21 @@ export default function AuthProvider ({ children }) {
       if (loginResponse.status === 200) {
         localStorage.setItem("user", JSON.stringify(loginResponse.data));
         alert('Login successful!');
+        const userData = loginResponse.data; // Assuming the response contains the user object
+        setisLoggedIn(true);
+        setUsername(userData.username);
+        alert('Registration successful!');
+        return;
       }
     } catch (error) {
       console.error('Login error:', error);
     }
   };  
 
-  const register = async (name, email, password, phone, birthDate, confirmPassword) => {
+  const register = async (username, email, password, phone, birthDate, confirmPassword) => {
     try {
       const registerResponse = await axios.post(`${apiURL}/users`, {
-        name,
+        username,
         email,
         password,
         phone,
@@ -35,7 +52,11 @@ export default function AuthProvider ({ children }) {
   
       if (registerResponse.status === 200) {
         localStorage.setItem("user", JSON.stringify(registerResponse.data));
+        setisLoggedIn(true);
+        const userData = registerResponse.data; // Assuming the response contains the user object
+        setUsername(userData.username);
         alert('Registration successful!');
+        return;
       }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error === "@users/create") {
@@ -49,7 +70,6 @@ export default function AuthProvider ({ children }) {
     }
   };
   
-
   const storedUser = localStorage.getItem("user");
 
   const AuthContextValue = {

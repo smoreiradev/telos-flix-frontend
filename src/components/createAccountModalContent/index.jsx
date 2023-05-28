@@ -5,9 +5,7 @@ import { EmailOutlined, PersonOutlined, PhoneOutlined } from "@mui/icons-materia
 import PasswordOutlinedInput from "../passwordOutlinedInput";
 import PrimaryGradientButton from "../primaryGrandientButton";
 import "./index.css";
-import AuthContext from "../../contexts/AuthProvider";
-import axios from "axios";
-
+import { AuthContext } from "../../contexts/AuthContext";
 
 function CreateAccountModalContent() {
   const [name, setName] = useState("");
@@ -16,7 +14,6 @@ function CreateAccountModalContent() {
   const [birthDate, SetBirthDate] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [role, setRole] = useState("customer");
   const { register } = useContext(AuthContext);
 
   const handleSignUp = async() => {

@@ -4,17 +4,16 @@ import { MovieContext } from "./MovieContext";
 
 export default function MovieProvider({ children }) {
   const [moviesData, setMoviesData] = useState([]);
-  const apiURL = 'http://localhost:3333'
+  const apiURL = 'http://localhost:3333';
 
   const movies = async() => {
     try {
-      const moviesResponse = await axios.get(`${apiURL}/movies`)
-      setMoviesData(moviesResponse.data.movies);
+      const moviesResponse = await axios.get(`${apiURL}/movies`);
+      setMoviesData(moviesResponse.data.pages[0].movies);
     } catch (error) {
       console.error(error);
     }
   };
-
   useEffect(() => {
     movies();
   }, []);

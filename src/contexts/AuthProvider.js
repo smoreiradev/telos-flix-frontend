@@ -4,71 +4,55 @@ import axios from "axios";
 
 const apiURL = 'http://localhost:3333';
 
-export default function AuthProvider ({ children }) {
-  const [authToken, setAuthToken] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);  
+export default function AuthProvider ({ children }) { 
 
-  const login = async (username, password) => {
+  const login = async ({email, password}) => {
     try {
       const loginResponse = await axios.post(`${apiURL}/authenticate`, {
-        username,
+        email,
         password
       });
-  
       if (loginResponse.status === 200) {
-        const token = loginResponse.data.jwt;
-        setAuthToken(token);
-        setIsAuthenticated(true);
+        localStorage.setItem("user", JSON.stringify(loginResponse.data));
         alert('Login successful!');
-  
-      } else if (loginResponse.status === 401) {
-        alert('Invalid credentials. Please try again.');
-      } else {
-        alert('Login failed. Please try again.');
       }
     } catch (error) {
       console.error('Login error:', error);
-  
-      if (error.response && error.response.data) {
-        const errorMessage = error.response.data.message;
-        alert(`Login failed: ${errorMessage}`);
-      } else {
-        alert('Login failed. Please try again.');
-      }
     }
-  };
+  };  
 
-  const register= async(name, email, password, phone, birthDate, confirmPassword) => {
-    try{
+  const register = async (name, email, password, phone, birthDate, confirmPassword) => {
+    try {
       const registerResponse = await axios.post(`${apiURL}/users`, {
-        data: {
-          name,
-          email, 
-          password,
-          phone,
-          birthDate,
-          confirmPassword,
-          role:"user",
-        }
+        name,
+        email,
+        password,
+        phone,
+        birthDate,
+        confirmPassword,
+        role: "customer",
       });
   
-      if (registerResponse.status === 201) {
+      if (registerResponse.status === 200) {
+        localStorage.setItem("user", JSON.stringify(registerResponse.data));
         alert('Registration successful!');
-      } else {
-        alert('Registration failed. Please try again.');
       }
     } catch (error) {
-      console.error('Registration error:', error);
-      alert('Registration failed. Please try again.');
+      if (error.response && error.response.data && error.response.data.error === "@users/create") {
+        // Duplicate email error
+        alert('Email address already exists. Please use a different email.');
+        return;  //ends the function and prevent the confirmation message to come out after an error
+      } else {
+        console.error('Registration error:', error);
+        return;
+      }
     }
   };
   
-  const logout = () => {
-    setAuthToken(null);
-  };
+
+  const storedUser = localStorage.getItem("user");
 
   const AuthContextValue = {
-    authToken,
     login,
     register:register,
   };

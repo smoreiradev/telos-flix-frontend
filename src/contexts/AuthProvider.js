@@ -6,7 +6,7 @@ const apiURL = 'http://localhost:3333';
 
 export default function AuthProvider ({ children }) { 
   const [isLoggedIn, setisLoggedIn] = useState(false);
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
 
   useEffect(() => {
     // Check if the user is already logged in
@@ -14,7 +14,7 @@ export default function AuthProvider ({ children }) {
     if (storedUser) {
       const userData = JSON.parse(storedUser);
       setisLoggedIn(true);
-      setUsername(userData.username);
+      setName(userData.name);
     }
   }, []);
 
@@ -29,7 +29,7 @@ export default function AuthProvider ({ children }) {
         alert('Login successful!');
         const userData = loginResponse.data; // Assuming the response contains the user object
         setisLoggedIn(true);
-        setUsername(userData.username);
+        setName(userData.name);
         alert('Registration successful!');
         return;
       }
@@ -38,10 +38,10 @@ export default function AuthProvider ({ children }) {
     }
   };  
 
-  const register = async (username, email, password, phone, birthDate, confirmPassword) => {
+  const register = async (name, email, password, phone, birthDate, confirmPassword) => {
     try {
       const registerResponse = await axios.post(`${apiURL}/users`, {
-        username,
+        name,
         email,
         password,
         phone,
@@ -50,11 +50,11 @@ export default function AuthProvider ({ children }) {
         role: "customer",
       });
   
-      if (registerResponse.status === 200) {
+      if (registerResponse.status === 201) {
         localStorage.setItem("user", JSON.stringify(registerResponse.data));
         setisLoggedIn(true);
         const userData = registerResponse.data; // Assuming the response contains the user object
-        setUsername(userData.username);
+        setName(userData.name);
         alert('Registration successful!');
         return;
       }

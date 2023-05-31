@@ -1,10 +1,10 @@
 import React from 'react'
-import RateButton from '../RateButton'
+import rateButton from '../rateButton'
 import './index.css'
 import CommentCard from '../CommentCard'
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
-import RateMovieModal from '../RateMovieModal'
+import RateMovieModal from '../rateMovieModal'
 
 const ArrayComment = [{
   user: "Paula Rust",

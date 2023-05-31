@@ -12,7 +12,7 @@ function EnjoyForFree() {
     console.log(movie.image); // Debugging statement to check the value of movie.image
     return movie.image;
   });
-  
+
 
   return (
     <div className="enjoyForfreeSection">

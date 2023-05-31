@@ -12,11 +12,13 @@ function PrimaryGradientButton({ text, icon, onClick, onCloseModal }) {
       closeModal(); // Close the login modal when the user is logged in
     }
   }, [isLoggedIn, closeModal]);
+
+  const buttonText = isLoggedIn ? username : text;
   
   return (
     <button onClick={onClick} className="primaryGrandientButton">
       {icon}
-      {isLoggedIn ? username : text}
+      {buttonText}
     </button>
   );
 }

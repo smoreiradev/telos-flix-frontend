@@ -16,7 +16,7 @@ export default function AuthProvider ({ children }) {
       setisLoggedIn(true);
       setName(userData.name);
     }
-  }, []);
+  }, [isLoggedIn]);
 
   const login = async ({email, password}) => {
     try {
@@ -30,7 +30,7 @@ export default function AuthProvider ({ children }) {
         const userData = loginResponse.data; // Assuming the response contains the user object
         setisLoggedIn(true);
         setName(userData.name);
-        alert('Registration successful!');
+        alert('Login successful!');
         return;
       }
     } catch (error) {
@@ -52,9 +52,9 @@ export default function AuthProvider ({ children }) {
   
       if (registerResponse.status === 201) {
         localStorage.setItem("user", JSON.stringify(registerResponse.data));
-        setisLoggedIn(true);
         const userData = registerResponse.data; // Assuming the response contains the user object
         setName(userData.name);
+        setisLoggedIn(true);
         alert('Registration successful!');
         return;
       }

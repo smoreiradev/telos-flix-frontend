@@ -75,6 +75,7 @@ export default function AuthProvider ({ children }) {
   const AuthContextValue = {
     login,
     register:register,
+    storedUser: JSON.parse(storedUser),
   };
 
   return(

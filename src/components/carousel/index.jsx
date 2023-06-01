@@ -47,7 +47,7 @@ function Carousel() {
   return (
     <div className='Carousel' ref={carousel}>
         <div>
-        <RateButton onClick={() => setOpen(true)}/>
+        <rateButton onClick={() => setOpen(true)}/>
         </div>
         <motion.div  className='CommentCardCarousel' whileTap={{cursor: "grabbing",}} drag="x" dragConstraints={{ right: 0, left: -width}}>
           {ArrayComment.map(comments => (

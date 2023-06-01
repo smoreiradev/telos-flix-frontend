@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -22,6 +22,7 @@ import AppBarActions from "../appBarActions";
 import CustomModal from "../customModal";
 import LoginModalContent from "../loginModalContent";
 import CreateAccountModalContent from "../createAccountModalContent";
+import { AuthContext } from "../../contexts/AuthContext";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -34,7 +35,6 @@ const openedMixin = (theme) => ({
   }),
   overflowX: "hidden",
 });
-
 const closedMixin = (theme) => ({
   border: "none",
   backgroundColor: "#212121",
@@ -48,7 +48,6 @@ const closedMixin = (theme) => ({
     width: `calc(${theme.spacing(8)} + 1px)`,
   },
 });
-
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -57,7 +56,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
-
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -77,27 +75,33 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== "open" })(
-  ({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: "nowrap",
-    boxSizing: "border-box",
-    ...(open && {
-      ...openedMixin(theme),
-      "& .MuiDrawer-paper": openedMixin(theme),
-    }),
-    ...(!open && {
-      ...closedMixin(theme),
-      "& .MuiDrawer-paper": closedMixin(theme),
-    }),
-  })
-);
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== "open",
+})(({ theme, open }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
+  ...(open && {
+    ...openedMixin(theme),
+    "& .MuiDrawer-paper": openedMixin(theme),
+  }),
+  ...(!open && {
+    ...closedMixin(theme),
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
+}));
 
 export default function Header() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [contentToShow, setContentToShow] = useState(<></>);
+  const { savedUser } = useContext(AuthContext);
+  useEffect(() => {
+    if (savedUser) {
+      setOpen(false);
+    }
+  }, [savedUser]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -110,34 +114,41 @@ export default function Header() {
           }}
         >
           <img src={logo} alt="logo" />
-          <AppBarActions
-            actions={[
-              <CreateAccountButton
-                onClick={() => {
-                  setContentToShow(<CreateAccountModalContent />);
-                  setOpen(true);
-                }}
-              />,
-              <LoginButton
-                onClick={() => {
-                  setContentToShow(
-                    <LoginModalContent
-                      setCreateAccountContent={() => {
-                        setContentToShow(<CreateAccountModalContent />);
-                      }}
-                    />
-                  );
-                  setOpen(true);
-                }}
-              />,
-            ]}
-          />
+          {savedUser?.name}
+          {!savedUser?.name && (
+            <AppBarActions
+              actions={[
+                <CreateAccountButton
+                  onClick={() => {
+                    setContentToShow(<CreateAccountModalContent />);
+                    setOpen(true);
+                  }}
+                />,
+                <LoginButton
+                  onClick={() => {
+                    setContentToShow(
+                      <LoginModalContent
+                        setCreateAccountContent={() => {
+                          setContentToShow(<CreateAccountModalContent />);
+                        }}
+                      />
+                    );
+                    setOpen(true);
+                  }}
+                />,
+              ]}
+            />
+          )}
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent">
         <DrawerHeader>
           <IconButton sx={{ color: "#fff" }}>
-            {theme.direction === "rtl" ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </DrawerHeader>
 

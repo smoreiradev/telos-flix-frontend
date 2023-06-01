@@ -3,20 +3,27 @@ import React, { useState, useEffect } from "react";
 import { MovieContext } from "./MovieContext";
 
 export default function MovieProvider({ children }) {
-  const [moviesData, setMoviesData] = useState([]);
-  const apiURL = 'http://localhost:3333/movies';
+  const [trendingMovies, setTrendingMovies] = useState([]);
+  const [freeMovies, setFreeMovies] = useState([]);
+  const apiURL = "http://localhost:3333/movies";
 
-  const movies = async() => {
+  const fetchMovies = async () => {
     try {
       const moviesResponse = await axios.get(apiURL);
-      setMoviesData(moviesResponse.data.pages[0].movies);
+      setTrendingMovies(moviesResponse.data.pages[0].movies);
+      setFreeMovies(moviesResponse.data.pages[1].movies);
     } catch (error) {
       console.error(error);
     }
   };
+
   useEffect(() => {
-    movies();
+    fetchMovies();
   }, []);
 
-  return <MovieContext.Provider value={[moviesData, setMoviesData]}>{children}</MovieContext.Provider>;
+  return (
+    <MovieContext.Provider value={{ trendingMovies, freeMovies, apiURL }}>
+      {children}
+    </MovieContext.Provider>
+  );
 }

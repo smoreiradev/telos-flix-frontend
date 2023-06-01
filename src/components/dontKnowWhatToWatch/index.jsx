@@ -17,7 +17,7 @@ function DontKnowWhatToWatch() {
   return (
     <div className="dontKnowWhatToWatch">
       <div className="labelSection">
-        <QuestionMarkRounded /> Aproveite grátis
+        <QuestionMarkRounded /> Ainda não sabe o que assistir?
       </div>
       <div className="dontKnowWhatToWatchgrid">
         {categories.map((category) => (

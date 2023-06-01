@@ -1,9 +1,9 @@
+import { CardGiftcardOutlined } from "@mui/icons-material";
 import React, { useContext, useEffect, useState } from "react";
-import "./index.css";
-import MiniVideoCard from "../miniVideoCard";
 import { Link } from "react-router-dom";
 import { MovieContext } from "../../contexts/MovieContext";
-import { CardGiftcardOutlined } from "@mui/icons-material";
+import MiniVideoCard from "../miniVideoCard";
+import "./index.css";
 
 async function checkImageAvailability(imageUrl) {
   return new Promise((resolve) => {
@@ -24,10 +24,16 @@ async function checkImageAvailability(imageUrl) {
 async function filterMoviesByImageAvailability(movies) {
   const filteredMovies = [];
 
-  for (const movie of movies) {
+  for (let i = 0; i < movies.length; i++) {
+    const movie = movies[i];
     const isImageAvailable = await checkImageAvailability(movie.image);
+
     if (isImageAvailable) {
       filteredMovies.push(movie);
+    }
+
+    if (filteredMovies.length === 3) {
+      break; // Exit the loop after adding three movies
     }
   }
 
@@ -35,38 +41,39 @@ async function filterMoviesByImageAvailability(movies) {
 }
 
 function EnjoyForFree() {
-  const { apiURL } = useContext(MovieContext);
-  const [moviesData] = useContext(MovieContext);
-  const freeMovies = moviesData; // Get the second, fifth, and tenth movie
+  const { apiURL, freeMovies } = useContext(MovieContext);
+  const movies = freeMovies || [];
 
   const [filteredMovies, setFilteredMovies] = useState([]);
 
   useEffect(() => {
     const fetchFilteredMovies = async () => {
-      const filteredMovies = await filterMoviesByImageAvailability(freeMovies);
+      const filteredMovies = await filterMoviesByImageAvailability(movies);
       setFilteredMovies(filteredMovies);
     };
 
     fetchFilteredMovies();
-  }, [freeMovies]);
+  }, [movies]);
 
   return (
-    <div className="enjoyForfreeSection">
+    <div className="trendingSection">
       <div className="labelSection">
         <CardGiftcardOutlined /> Aproveite grátis
       </div>
-      <div className="enjoyForfreeVideosGrid">
+      <div className="trendingVideosGrid">
         {filteredMovies.map((movie) => (
-          <Link
-            style={{
-              textDecoration: "none",
-              color: "#EEEEEE",
-            }}
-            to={`${apiURL}/${movie._id}`}
-            key={movie._id}
-          >
-            <MiniVideoCard image={movie.image} />
-          </Link>
+          movie ? (
+            <Link
+              style={{
+                textDecoration: "none",
+                color: "#EEEEEE",
+              }}
+              to={`${apiURL}/${movie._id}`}
+              key={movie._id}
+            >
+              <MiniVideoCard image={movie.image} />
+            </Link>
+          ) : null
         ))}
       </div>
     </div>
@@ -74,4 +81,3 @@ function EnjoyForFree() {
 }
 
 export default EnjoyForFree;
-  

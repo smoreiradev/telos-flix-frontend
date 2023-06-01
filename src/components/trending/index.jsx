@@ -24,10 +24,16 @@ async function checkImageAvailability(imageUrl) {
 async function filterMoviesByImageAvailability(movies) {
   const filteredMovies = [];
 
-  for (const movie of movies) {
+  for (let i = 0; i < movies.length; i++) {
+    const movie = movies[i];
     const isImageAvailable = await checkImageAvailability(movie.image);
+
     if (isImageAvailable) {
       filteredMovies.push(movie);
+    }
+
+    if (filteredMovies.length === 3) {
+      break; // Exit the loop after adding three movies
     }
   }
 
@@ -35,20 +41,19 @@ async function filterMoviesByImageAvailability(movies) {
 }
 
 function Trending() {
-  const { apiURL } = useContext(MovieContext);
-  const [moviesData] = useContext(MovieContext);
-  const trendingMovies = moviesData;
+  const { apiURL, trendingMovies } = useContext(MovieContext);
+  const movies = trendingMovies || [];
 
   const [filteredMovies, setFilteredMovies] = useState([]);
 
   useEffect(() => {
     const fetchFilteredMovies = async () => {
-      const filteredMovies = await filterMoviesByImageAvailability(trendingMovies);
+      const filteredMovies = await filterMoviesByImageAvailability(movies);
       setFilteredMovies(filteredMovies);
     };
 
     fetchFilteredMovies();
-  }, [trendingMovies]);
+  }, [movies]);
 
   return (
     <div className="trendingSection">
@@ -57,16 +62,18 @@ function Trending() {
       </div>
       <div className="trendingVideosGrid">
         {filteredMovies.map((movie) => (
-          <Link
-            style={{
-              textDecoration: "none",
-              color: "#EEEEEE",
-            }}
-            to={`${apiURL}/${movie._id}`}
-            key={movie._id}
-          >
-            <MiniVideoCard image={movie.image} />
-          </Link>
+          movie ? (
+            <Link
+              style={{
+                textDecoration: "none",
+                color: "#EEEEEE",
+              }}
+              to={`${apiURL}/${movie._id}`}
+              key={movie._id}
+            >
+              <MiniVideoCard image={movie.image} />
+            </Link>
+          ) : null
         ))}
       </div>
     </div>

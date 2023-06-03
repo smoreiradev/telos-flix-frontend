@@ -11,6 +11,8 @@ export default function MovieProvider({ children }) {
     try {
       const moviesResponse = await axios.get(apiURL);
       setTrendingMovies(moviesResponse.data.pages[0].movies);
+      const moviesData = moviesResponse.data;
+      
       setFreeMovies(moviesResponse.data.pages[1].movies);
     } catch (error) {
       console.error(error);

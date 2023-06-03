@@ -1,30 +1,42 @@
+import React, { useContext } from "react";
 import { Button } from "@mui/material";
-import React from "react";
+import {
+  ArrowForward,
+  QuestionAnswer,
+  QuestionMark,
+  QuestionMarkRounded,
+  Settings,
+} from "@mui/icons-material";
+
+import { MovieContext } from "../../contexts/MovieContext";
 import "./index.css";
-import { ArrowForward, QuestionAnswer, QuestionMark, QuestionMarkRounded, Settings } from "@mui/icons-material";
+
+
 function DontKnowWhatToWatch() {
-  const categories = [
-    { title: "Categoria 1" },
-    { title: "Categoria 2" },
-    { title: "Categoria 3" },
-    { title: "Categoria 4" },
-    { title: "Categoria 5" },
-    { title: "Categoria 6" },
-    { title: "Categoria 7" },
-    { title: "Categoria 8" },
-    { title: "Categoria 9" },
-  ];
+  const { trendingMovies, freeMovies } = useContext(MovieContext);
+  const trendingMovieGenres = trendingMovies.map(movie => movie.genres);
+  const freeMovieGenres = freeMovies.map(movie => movie.genres);
+
+  const breakTrendingMovieGenres = trendingMovieGenres.flat();
+  const breakFreeMovieGenres = freeMovieGenres.flat();
+  const movieGenre = breakTrendingMovieGenres.concat(breakFreeMovieGenres);
+
+  const movieCategoriesSet = new Set(movieGenre);  // eliminates any duplicate values, keeping only the unique ones.
+  const movieCategories = Array.from(movieCategoriesSet);  //create an array that contains all the unique categories
+
+  console.log(movieCategories);
+
   return (
     <div className="dontKnowWhatToWatch">
       <div className="labelSection">
         <QuestionMarkRounded /> Ainda não sabe o que assistir?
       </div>
       <div className="dontKnowWhatToWatchgrid">
-        {categories.map((category) => (
-          <Button className="categoryButton">
+        {movieCategories.map((category) => (
+          <Button className="categoryButton" key={category}>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
               <Settings />
-              {category.title}
+              {category}
             </div>
             <ArrowForward />
           </Button>

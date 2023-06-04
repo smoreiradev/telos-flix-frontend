@@ -7,6 +7,7 @@ const apiURL = 'http://localhost:3333';
 export default function AuthProvider ({ children }) { 
   const [isLoggedIn, setisLoggedIn] = useState(false);
   const [name, setName] = useState('');
+  const [role, setRole] = useState('');
 
   useEffect(() => {
     // Check if the user is already logged in
@@ -26,10 +27,11 @@ export default function AuthProvider ({ children }) {
       });
       if (loginResponse.status === 200) {
         localStorage.setItem("user", JSON.stringify(loginResponse.data));
-        alert('Login successful!');
-        const userData = loginResponse.data; // Assuming the response contains the user object
+        const userData = loginResponse.data; 
         setisLoggedIn(true);
         setName(userData.name);
+        const role = userData.role;
+        setRole(role);
         alert('Login successful!');
         return;
       }
@@ -52,7 +54,7 @@ export default function AuthProvider ({ children }) {
   
       if (registerResponse.status === 201) {
         localStorage.setItem("user", JSON.stringify(registerResponse.data));
-        const userData = registerResponse.data; // Assuming the response contains the user object
+        const userData = registerResponse.data; 
         setName(userData.name);
         setisLoggedIn(true);
         alert('Registration successful!');
@@ -60,7 +62,6 @@ export default function AuthProvider ({ children }) {
       }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error === "@users/create") {
-        // Duplicate email error
         alert('Email address already exists. Please use a different email.');
         return;  //ends the function and prevent the confirmation message to come out after an error
       } else {
@@ -71,6 +72,14 @@ export default function AuthProvider ({ children }) {
   };
   
   const storedUser = localStorage.getItem("user");
+
+  const logout = () => {
+    localStorage.removeItem("user");
+    setisLoggedIn(false);
+    axios.defaults.headers.common['Authorization'] = null; // Clear the token from axios defaults
+    alert('Logged out successfully!');
+  };
+
 
   const AuthContextValue = {
     login,

@@ -23,6 +23,7 @@ import CustomModal from "../customModal";
 import LoginModalContent from "../loginModalContent";
 import CreateAccountModalContent from "../createAccountModalContent";
 import { AuthContext } from "../../contexts/AuthContext";
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -115,13 +116,19 @@ export default function Header() {
           }}
         >
           <img src={logo} alt="logo" />
-          {storedUser?.name}
+          <div>{storedUser?.name}</div>
           {!storedUser?.name && (
             <AppBarActions
               actions={[
                 <CreateAccountButton
                   onClick={() => {
-                    setContentToShow(<CreateAccountModalContent />);
+                    setContentToShow(
+                      <CreateAccountModalContent 
+                        setCreateAccountContent={() => {
+                          setContentToShow(<LoginModalContent />);
+                        }}
+                      />
+                    );
                     setOpen(true);
                   }}
                 />,

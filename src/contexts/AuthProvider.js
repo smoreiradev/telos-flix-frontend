@@ -54,9 +54,7 @@ export default function AuthProvider ({ children }) {
   
       if (registerResponse.status === 201) {
         localStorage.setItem("user", JSON.stringify(registerResponse.data));
-        const userData = registerResponse.data; 
-        setName(userData.name);
-        setisLoggedIn(true);
+        const userData = registerResponse.data;
         alert('Registration successful!');
         return;
       }

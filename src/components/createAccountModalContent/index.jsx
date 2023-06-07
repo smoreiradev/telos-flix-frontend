@@ -28,12 +28,10 @@ function CreateAccountModalContent() {
 
   const { register } = useContext(AuthContext);
   const { isLoggedIn } = useContext(AuthContext);
-  const [isOpen, setIsOpen] = useState(true);
 
   useEffect(() => {
     if (isLoggedIn) {
       console.log(isLoggedIn);
-      setIsOpen(false);
     }
   }, [isLoggedIn]);
 
@@ -141,7 +139,6 @@ function CreateAccountModalContent() {
     </div>
     ): null}
 
-    {isLoggedIn && setIsOpen(false)}
   </>
   )
 }

@@ -95,13 +95,14 @@ const Drawer = styled(MuiDrawer, {
 export default function Header() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [contentToShow, setContentToShow] = useState(<></>);
-  const { savedUser } = useContext(AuthContext);
+  const [contentToShow, setContentToShow] = useState();
+  const { storedUser } = useContext(AuthContext);
+  
   useEffect(() => {
-    if (savedUser) {
+    if (storedUser) {
       setOpen(false);
     }
-  }, [savedUser]);
+  }, [storedUser]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -114,8 +115,8 @@ export default function Header() {
           }}
         >
           <img src={logo} alt="logo" />
-          {savedUser?.name}
-          {!savedUser?.name && (
+          {storedUser?.name}
+          {!storedUser?.name && (
             <AppBarActions
               actions={[
                 <CreateAccountButton

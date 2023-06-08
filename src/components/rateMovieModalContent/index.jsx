@@ -1,7 +1,7 @@
 import { OutlinedInput } from '@mui/material'
 import React from 'react'
 import './index.css'
-import RatingStars from '../ratingStars'
+import RattingStars from '../rattingStars'
 
 
 function RateMovieModalContent() {
@@ -12,7 +12,7 @@ function RateMovieModalContent() {
             <div className='WhatsIsYourOpinion'>
                 <h3>O que você achou do filme ?</h3>
                 <p>Dê cinco estrelas se recomendaria para seus amigos e uma caso possa até falar mal para eles.</p>
-                <div className='RatingStarsDiv'><RatingStars/></div>
+                <div className='RatingStarsDiv'><RattingStars/></div>
             </div>
             <div className='HaveSomeComment'>
                 <h5>Tem algum comentário ?</h5>

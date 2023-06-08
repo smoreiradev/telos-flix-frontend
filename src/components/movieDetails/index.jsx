@@ -1,16 +1,21 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { 
+useState, 
+useContext,
+} from "react";
 import { useParams } from "react-router-dom";
-import WatchButton from "../../components/WatchButton";
+import WatchButton from "../../components/watchButton";
 import RateButton from "../../components/rateButton";
 import "./index.css";
 import StarOutlinedIcon from "@mui/icons-material/StarOutlined";
-import Carousel from "../../components/Carosel";
+import Carousel from "../../components/carousel";
 import RateMovieModal from "../../components/rateMovieModal";
 import CustomizedProgressBars from "../../components/progressBar";
 import { MovieContext } from "../../contexts/MovieContext";
+
 function MovieDetails() {
   const [open, setOpen] = useState(false);
-  const [movies] = useContext(MovieContext);
+  const { trendingMovies, freeMovies } = useContext(MovieContext);
+  const movies = [...trendingMovies, ...freeMovies];
   const { id } = useParams(); // Obtém o ID do filme da rota
   // Encontra o filme correspondente com base no ID
   const movie = movies.find((movie) => movie?._id === id);

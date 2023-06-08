@@ -1,7 +1,7 @@
 import React from 'react'
 import rateButton from '../rateButton'
 import './index.css'
-import CommentCard from '../CommentCard'
+import CommentCard from '../comentCard'
 import { motion } from 'framer-motion'
 import { useState, useEffect, useRef } from 'react'
 import RateMovieModal from '../rateMovieModal'

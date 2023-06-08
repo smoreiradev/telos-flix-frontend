@@ -1,6 +1,6 @@
 import React from 'react'
 import './index.css'
-import RatingStarsCommentCard from '../RattingStarsCommentCard'
+import RatingStarsCommentCard from '../rattingStarsCommentCard'
 
 
 function commentCard({user, comment, rate}) {

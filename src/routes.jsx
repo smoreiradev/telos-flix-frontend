@@ -5,9 +5,14 @@ import Video from "./pages/video";
 import MovieProvider from "./contexts/MovieProvider";
 import { useContext } from "react";
 import { AuthContext } from "./contexts/AuthContext";
+import ProtectedRoutes from "./components/protectedRoutes/admin";
+import MovieDetails from "./components/movieDetails";
+import { MovieContext } from "./contexts/MovieContext";
+
 
 export default function AppRoutes() {
   const { isAuthenticated } = useContext(AuthContext);
+  const { apiURL } = useContext(MovieContext);
 
   return (
     <BrowserRouter>
@@ -40,10 +45,16 @@ export default function AppRoutes() {
         <Route
           element={
             <MovieProvider>
-              <Video />
+              <MovieDetails />
             </MovieProvider>
           }
           path="/video/:id"
+        />
+        <Route 
+          element={
+            <ProtectedRoutes />
+          }
+          path="/admin/*" 
         />
       </Routes>
     </BrowserRouter>

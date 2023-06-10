@@ -1,0 +1,14 @@
+.Carousel{
+  display: flex;
+  flex-direction: column;
+  margin-top: 22px;
+  gap: 15px;
+  overflow: hidden;
+}
+
+.CommentCardCarousel{
+  display: flex;
+  gap: 20px;
+  max-width: 900px;
+  cursor: grab;
+}

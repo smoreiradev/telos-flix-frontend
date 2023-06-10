@@ -8,6 +8,7 @@ import { AuthContext } from "./contexts/AuthContext";
 import ProtectedRoutes from "./components/protectedRoutes/admin";
 import MovieDetails from "./components/movieDetails";
 import { MovieContext } from "./contexts/MovieContext";
+import VideoPlayer from "./components/videoPlayer";
 
 
 export default function AppRoutes() {
@@ -55,6 +56,12 @@ export default function AppRoutes() {
             <ProtectedRoutes />
           }
           path="/admin/*" 
+        />
+        <Route
+          element={
+            <VideoPlayer />
+          }
+          path="/video/:id/video_player"
         />
       </Routes>
     </BrowserRouter>

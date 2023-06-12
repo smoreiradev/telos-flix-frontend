@@ -161,7 +161,13 @@ export default function Header() {
               actions={[
                 <CreateAccountButton
                   onClick={() => {
-                    setContentToShow(<CreateAccountModalContent />);
+                    setContentToShow(
+                      <CreateAccountModalContent 
+                        setCreateAccountContent={() => {
+                          setContentToShow(<LoginModalContent />);
+                        }}
+                      />
+                    );
                     setOpen(true);
                   }}
                 />,

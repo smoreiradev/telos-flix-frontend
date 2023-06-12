@@ -84,6 +84,7 @@ export default function AuthProvider ({ children }) {
     login,
     register:register,
     storedUser: JSON.parse(storedUser),
+    logout
   };
 
   return(

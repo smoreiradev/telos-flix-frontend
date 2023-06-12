@@ -116,7 +116,7 @@ const ProfileComponent = ({ user, onLogout }) => {
         </Grid>
         <Grid item>
           <IconButton onClick={onLogout}>
-            <Logout style={{marginRight: '-50px', color: '#eeeeee', opacity: '0.2'}}/>
+            <Logout style={{ marginRight: '-50px', color: '#eeeeee', opacity: '0.2' }} />
           </IconButton>
         </Grid>
       </Grid>
@@ -128,12 +128,7 @@ export default function Header() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [contentToShow, setContentToShow] = useState();
-  const { storedUser, setStoredUser } = useContext(AuthContext);
-
-  const handleLogout = () => {
-    // Perform logout logic here
-    setStoredUser(null);
-  };
+  const { storedUser, logout } = useContext(AuthContext);
 
   useEffect(() => {
     if (storedUser) {
@@ -151,15 +146,15 @@ export default function Header() {
             justifyContent: "space-between",
             position: "relative",
           }}
-        > 
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <img src={logo} alt="logo" />
             <Typography variant="h6" sx={{ fontWeight: "500", ml: 1, marginTop: 0 }}>
-                TelosFlix
-              </Typography>
-        </Box>
+              TelosFlix
+            </Typography>
+          </Box>
           {storedUser?.name && (
-            <ProfileComponent user={storedUser} onLogout={handleLogout} />
+            <ProfileComponent user={storedUser} onLogout={logout} />
           )}
           {!storedUser?.name && (
             <AppBarActions

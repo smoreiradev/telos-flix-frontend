@@ -5,15 +5,17 @@ import { MovieContext } from "./MovieContext";
 export default function MovieProvider({ children }) {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [freeMovies, setFreeMovies] = useState([]);
+
   const apiURL = "http://localhost:3333/movies";
 
   const fetchMovies = async () => {
     try {
       const moviesResponse = await axios.get(apiURL);
-      setTrendingMovies(moviesResponse.data.pages[0].movies);
-      const moviesData = moviesResponse.data;
-      
-      setFreeMovies(moviesResponse.data.pages[1].movies);
+      const allData = moviesResponse.data;
+  
+      setTrendingMovies(allData.pages[0].movies);
+      setFreeMovies(allData.pages[1].movies);
+  
     } catch (error) {
       console.error(error);
     }
@@ -23,8 +25,11 @@ export default function MovieProvider({ children }) {
     fetchMovies();
   }, []);
 
+  const moviesData = [...trendingMovies, ...freeMovies];
+  // Create an array with only freeMovies and trendingMovies
+
   return (
-    <MovieContext.Provider value={{ trendingMovies, freeMovies, apiURL }}>
+    <MovieContext.Provider value={{ trendingMovies, freeMovies, apiURL, moviesData }}>
       {children}
     </MovieContext.Provider>
   );

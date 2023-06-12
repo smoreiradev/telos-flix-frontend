@@ -2,7 +2,7 @@ import React, {
 useState, 
 useContext,
 } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import WatchButton from "../../components/watchButton";
 import RateButton from "../../components/rateButton";
 import "./index.css";
@@ -19,8 +19,15 @@ function MovieDetails() {
   const { id } = useParams(); // Obtém o ID do filme da rota
   // Encontra o filme correspondente com base no ID
   const movie = movies.find((movie) => movie?._id === id);
+  const navigate = useNavigate();
+
   if (!movie) {
     return <div>Carregando...</div>; // Lógica de tratamento quando o filme não for encontrado
+  }
+
+  function handleWatchButton () {
+    console.log("Watch button clicked");
+    navigate(`/video/${id}/video_player`);
   }
 
   return (
@@ -31,7 +38,7 @@ function MovieDetails() {
           {movie?.title} {/* Exibe o nome do filme */}
         </h1>
         <div className="VideoCard__buttons">
-          <WatchButton />
+          <WatchButton onClick={() => handleWatchButton()} />
           <RateButton onClick={() => setOpen(true)} />
         </div>
       </div>

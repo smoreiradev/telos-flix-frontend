@@ -17,7 +17,7 @@ export default function AuthProvider ({ children }) {
       setisLoggedIn(true);
       setName(userData.name);
     }
-  }, [isLoggedIn]);
+  }, []);
 
   const login = async ({email, password}) => {
     try {
@@ -84,7 +84,8 @@ export default function AuthProvider ({ children }) {
     login,
     register:register,
     storedUser: JSON.parse(storedUser),
-    logout
+    logout,
+    isLoggedIn,
   };
 
   return(

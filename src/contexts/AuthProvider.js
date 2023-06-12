@@ -56,6 +56,7 @@ export default function AuthProvider ({ children }) {
         localStorage.setItem("user", JSON.stringify(registerResponse.data));
         const userData = registerResponse.data;
         alert('Registration successful!');
+        setisLoggedIn(true);
         return;
       }
     } catch (error) {
@@ -83,6 +84,7 @@ export default function AuthProvider ({ children }) {
     login,
     register:register,
     storedUser: JSON.parse(storedUser),
+    logout
   };
 
   return(

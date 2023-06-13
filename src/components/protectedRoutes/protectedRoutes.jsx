@@ -1,6 +1,7 @@
-import { Outlet, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import VideoPlayer from '../videoPlayer';
 
 const ProtectedRoutes = () => {
   const { id } = useParams();
@@ -9,12 +10,11 @@ const ProtectedRoutes = () => {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      alert('Acesso negado!');
-      navigate(`/video/${id}`);
+      alert('Acesso negado. Faça login.')
+      navigate(`/video/${id}`); 
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, navigate]);
 
-  return <Outlet />;
 };
 
 export default ProtectedRoutes;

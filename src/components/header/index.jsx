@@ -147,7 +147,7 @@ export default function Header() {
             position: "relative",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ display: "flex", color: "#eeeeee" }}>
             <img src={logo} alt="logo" />
             <Typography variant="h6" sx={{ fontWeight: "500", ml: 1, marginTop: 0 }}>
               TelosFlix

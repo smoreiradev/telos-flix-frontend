@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { useContext } from 'react';
 import { MovieContext } from '../../contexts/MovieContext';
 import ReactPlayer from 'react-player';
+import { AuthContext } from '../../contexts/AuthContext';
+import ProtectedRoutes from '../protectedRoutes/protectedRoutes';
 
 const VideoPlayer = () => {
   const { id } = useParams();
@@ -10,6 +12,7 @@ const VideoPlayer = () => {
   const foundVideo = moviesData.find(video => video._id === id);
   const width = '1000px';
   const height = '550px';
+  const { isLoggedIn } = useContext(AuthContext);
 
   function getVideoUrl() {
     if (foundVideo) {
@@ -33,16 +36,14 @@ const VideoPlayer = () => {
           boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
         }}
       >
-        {getVideoUrl() ? (
+        {getVideoUrl() && isLoggedIn ? (
           <ReactPlayer
             url={getVideoUrl()}
             width={width}
             height={height}
             controls
           />
-        ) : (
-          <p>Loading...</p>
-        )}
+        ): <ProtectedRoutes />}
       </div>
     </div>
   );

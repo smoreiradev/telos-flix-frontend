@@ -1,19 +1,19 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import { Navigate } from 'react-router-dom';
 import VideoPlayer from '../videoPlayer';
 
-const ProtectedRoutes = () => {
+const ProtectedRoutes = ({children}) => {
   const { id } = useParams();
   const { isLoggedIn } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isLoggedIn) {
-      alert('Acesso negado. Faça login.')
-      navigate(`/video/${id}`); 
+      return <Navigate to="/" replace />
     }
-  }, [isLoggedIn, navigate]);
+    return children
+  }, [isLoggedIn]);
 
 };
 

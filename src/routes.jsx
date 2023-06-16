@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, Navigate} from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Home from "./pages/home";
 import Video from "./pages/video";
 import MovieProvider from "./contexts/MovieProvider";
@@ -8,45 +8,53 @@ import ProtectedRoutes from "./components/protectedRoutes/protectedRoutes";
 import MovieDetails from "./components/movieDetails";
 import { MovieContext } from "./contexts/MovieContext";
 import VideoPlayer from "./components/videoPlayer";
+import AuthProvider from "./contexts/AuthProvider";
+import Header from "./components/header";
 
 export default function AppRoutes() {
-  const { isAuthenticated } = useContext(AuthContext);
-  const { apiURL } = useContext(MovieContext);
-
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route 
-          element={
-            <MovieProvider>
-              <Home />
-            </MovieProvider>
-          } 
-          path="/" 
-          exact 
-        />
+    <MovieProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route
+              element={
 
-        <Route
-          element={
-            <MovieProvider>
-              <MovieDetails />
-            </MovieProvider>
-          }
-          path="/video/:id"
-        />
-        <Route 
-          element={
-            <ProtectedRoutes />
-          }
-          path="/admin/*" 
-        />
-        <Route
-          element={
-              <VideoPlayer />
-          }
-         path="/video/:id/video_player"
-        /> 
-      </Routes>
-    </BrowserRouter>
+                <Home />
+
+              }
+              path="/"
+              exact
+            />
+
+            <Route
+              element={
+
+                <MovieDetails />
+
+              }
+              path="/video/:id"
+            />
+            <Route
+              element={
+                <ProtectedRoutes >
+
+                </ProtectedRoutes>
+              }
+              path="/admin/*"
+            />
+            <Route
+              element={
+                <ProtectedRoutes >
+                  <VideoPlayer />
+                </ProtectedRoutes>
+              }
+              path="/video/:id/video_player"
+            />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </MovieProvider>
   );
 }

@@ -128,7 +128,7 @@ export default function Header() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [contentToShow, setContentToShow] = useState();
-  const { storedUser, logout } = useContext(AuthContext);
+  const { storedUser, setStoredUser, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {

@@ -10,6 +10,7 @@ import { MovieContext } from "./contexts/MovieContext";
 import VideoPlayer from "./components/videoPlayer";
 import AuthProvider from "./contexts/AuthProvider";
 import Header from "./components/header";
+import Search from "./components/search";
 
 export default function AppRoutes() {
   return (
@@ -51,6 +52,13 @@ export default function AppRoutes() {
                 </ProtectedRoutes>
               }
               path="/video/:id/video_player"
+            />
+
+            <Route
+              element={
+                <Search />
+              }
+              path="/search"
             />
           </Routes>
         </BrowserRouter>

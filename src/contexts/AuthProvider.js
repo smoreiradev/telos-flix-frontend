@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
 import axios from "axios";
+import FlashMessage from "../components/flashMessage/index";
 
 const apiURL = 'http://localhost:3333';
 
 export default function AuthProvider ({ children }) { 
-  const [isLoggedIn, setisLoggedIn] = useState(false);
-  const [name, setName] = useState('');
-  const [role, setRole] = useState('');
+  const [flashMessage, setFlashMessage] = useState('');
 
-  useEffect(() => {
-    // Check if the user is already logged in
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const userData = JSON.parse(storedUser);
-      setisLoggedIn(true);
-      setName(userData.name);
-    }
-  }, []);
+  const showFlashMessage = (message) => {
+    setFlashMessage(message);
+  };
 
   const login = async ({email, password}) => {
     try {
@@ -28,11 +21,8 @@ export default function AuthProvider ({ children }) {
       if (loginResponse.status === 200) {
         localStorage.setItem("user", JSON.stringify(loginResponse.data));
         const userData = loginResponse.data; 
-        setisLoggedIn(true);
-        setName(userData.name);
         const role = userData.role;
-        setRole(role);
-        alert('Login successful!');
+        showFlashMessage(`Bem vindo(a) de volta, ${userData.name}!`);
         return;
       }
     } catch (error) {
@@ -55,14 +45,13 @@ export default function AuthProvider ({ children }) {
       if (registerResponse.status === 201) {
         localStorage.setItem("user", JSON.stringify(registerResponse.data));
         const userData = registerResponse.data;
-        alert('Registration successful!');
-        setisLoggedIn(true);
+        showFlashMessage('Registration successful!');
         return;
       }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error === "@users/create") {
-        alert('Email address already exists. Please use a different email.');
-        return;  //ends the function and prevent the confirmation message to come out after an error
+        showFlashMessage('Email address already exists. Please use a different email.');
+        return;
       } else {
         console.error('Registration error:', error);
         return;
@@ -74,9 +63,8 @@ export default function AuthProvider ({ children }) {
 
   const logout = () => {
     localStorage.removeItem("user");
-    setisLoggedIn(false);
-    axios.defaults.headers.common['Authorization'] = null; // Clear the token from axios defaults
-    alert('Logged out successfully!');
+    axios.defaults.headers.common['Authorization'] = null;
+    showFlashMessage('Logged out successfully!');
   };
 
 
@@ -85,11 +73,12 @@ export default function AuthProvider ({ children }) {
     register:register,
     storedUser: JSON.parse(storedUser),
     logout,
-    isLoggedIn,
+    isLoggedIn: JSON.parse(storedUser) != null,
   };
 
   return(
     <AuthContext.Provider value={AuthContextValue}>
+      {flashMessage && <FlashMessage message={flashMessage} onClose={() => setFlashMessage('')} />}
       {children}
     </AuthContext.Provider>
   );

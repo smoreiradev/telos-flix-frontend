@@ -1,0 +1,54 @@
+.flash-message {
+  position: fixed;
+  background-color: #292929;
+  border-radius: 3px;
+  width: 400px;
+  height: 35px;
+  text-align: center;
+  position: relative; /* Add position relative */
+}
+
+.message-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px;
+}
+
+.flash-message p {
+  font-weight: 300;
+  font-size: medium;
+  margin: 0; /* Remove any default margin */
+  color: white;
+}
+
+.flash-message button {
+  background-color: #292929;
+  border: none;
+  padding-right: 12px;
+  color: white;
+}
+
+.flash-message button p {
+  font-size: 13pt;
+}
+
+.loading-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background-color: gray;
+  animation: loading-animation 3s linear;
+  width: 0;
+  transform-origin: left center;
+}
+
+@keyframes loading-animation {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}

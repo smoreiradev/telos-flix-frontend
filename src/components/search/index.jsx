@@ -70,16 +70,14 @@ const MovieCard = ({ movie }) => {
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [load, setLoading] = useState(false);
   const { moviesData } = useContext(MovieContext);
 
   function stringTreatment(event) {
-    if (searchTerm) {
-      setSearchTerm('');
+    let string = event?.target?.value ?? '';
+    string = string?.trim();
+    if(string.length){
+      string = string[0]?.toUpperCase() + string?.substring(1);
     }
-    let string = event?.target?.value;
-    string = string.trim();
-    string = string[0]?.toUpperCase() + string?.substring(1);
     setSearchTerm(string);
   }
 

@@ -10,18 +10,26 @@ import CustomOutlinedInput from "../customOutlinedInput";
 import PasswordOutlinedInput from "../passwordOutlinedInput";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useContext } from "react";
+import FlashMessage from "../flashMessage";
 
 export default function LoginModalContent({ setCreateAccountContent }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const { login } = useContext(AuthContext);
+  const [flashMessage, setFlashMessage] = useState('');
+
+  const showFlashMessage = (message) => {
+    setFlashMessage(message);
+    setTimeout(() => {
+      setFlashMessage("");
+    }, 3000); // Hide the flash message after 3 seconds
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault(); // Prevent form submission
 
     if (!email || !password) {
-      alert("Please enter your email and password.");
+      showFlashMessage("Please enter your email and password.");
       return;
     }
 
@@ -35,6 +43,11 @@ export default function LoginModalContent({ setCreateAccountContent }) {
 
   return (
     <div className="loginModalContent">
+      <div className="flashMessageContainer">
+        {flashMessage && (
+        <FlashMessage message={flashMessage} onClose={() => setFlashMessage("")} />
+        )}
+      </div>
       <div className="firstSection">
         Login
         <div className="imageContainer">

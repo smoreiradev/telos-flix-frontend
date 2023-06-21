@@ -215,6 +215,7 @@ export default function Header() {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
+              marginLeft: "15px",
             }}
           >
             <ListItem key="Home" disablePadding sx={{ display: "block" }}>

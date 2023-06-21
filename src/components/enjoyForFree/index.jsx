@@ -32,7 +32,7 @@ async function filterMoviesByImageAvailability(movies) {
       filteredMovies.push(movie);
     }
 
-    if (filteredMovies.length === 3) {
+    if (filteredMovies.length === 4) {
       break; // Exit the loop after adding three movies
     }
   }
@@ -57,9 +57,7 @@ function EnjoyForFree() {
 
   return (
     <div className="trendingSection">
-      <div className="labelSection">
-        <CardGiftcardOutlined /> Aproveite grátis
-      </div>
+      <div className="labelSection" style={{marginLeft: "60px"}}>Aproveite grátis</div>
       <div className="trendingVideosGrid">
         {filteredMovies.map((movie) => (
           movie ? (

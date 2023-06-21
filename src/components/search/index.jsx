@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import './index.css';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -40,74 +40,96 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '130ch',
-      },
-    },
+    width: '200px', // Set a fixed width for the input
     '&::placeholder': {
       color: '#fff', // Set placeholder text color to white
     },
   },
 }));
 
-
 const MovieCard = ({ movie }) => {
   return (
     <div className="movie-card">
-      <img 
-        className="movie-card__image" 
-        src={movie.image} 
-        alt={movie.title} 
+      <img
+        className="movie-card__image"
+        src={movie.image}
+        alt={movie.title}
       />
     </div>
   );
 };
 
+const checkImageAvailability = async (imageUrl) => {
+  return new Promise((resolve) => {
+    const img = new Image();
+
+    img.addEventListener('error', () => {
+      resolve(false); // Image failed to load (404 not found)
+    });
+
+    img.addEventListener('load', () => {
+      resolve(true); // Image loaded successfully
+    });
+
+    img.src = imageUrl;
+  });
+};
+
+const filterMoviesByImageAvailability = async (movies) => {
+  const filteredMovies = [];
+
+  for (let i = 0; i < movies.length; i++) {
+    const movie = movies[i];
+    const isImageAvailable = await checkImageAvailability(movie.image);
+
+    if (isImageAvailable) {
+      filteredMovies.push(movie);
+    }
+  }
+
+  return filteredMovies;
+};
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const { moviesData } = useContext(MovieContext);
+  const [filteredMovies, setFilteredMovies] = useState([]);
+
+  useEffect(() => {
+    const filterMovies = async () => {
+      const filtered = await filterMoviesByImageAvailability(moviesData);
+      setFilteredMovies(filtered);
+    };
+
+    filterMovies();
+  }, [moviesData]);
 
   function stringTreatment(event) {
-    let string = event?.target?.value ?? '';
-    string = string?.trim();
-    if(string.length){
-      string = string[0]?.toUpperCase() + string?.substring(1);
-    }
+    const string = event?.target?.value ?? '';
     setSearchTerm(string);
   }
 
   return (
     <div className="app">
-      <Box>
-        <SearchBar>
-          <SearchIconWrapper>
-            <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase
-            placeholder="Search…"
-            inputProps={{ 'aria-label': 'search' }}
-            value={searchTerm}
-            onChange={stringTreatment}
-          />
-        </SearchBar>
-      </Box>
+      <div className="search-bar">
+        <input
+          type="text"
+          placeholder="Search for movies..."
+          value={searchTerm}
+          onChange={stringTreatment}
+        />
+      </div>
       {searchTerm ? (
         <Fragment>
-          {moviesData
-            .filter(obj => obj.title.includes(searchTerm))
-            .map(filteredObj => (
-              <MovieCard key={filteredObj._id} movie={filteredObj} />
-            ))}
+          <div className="movie-card-container">
+            {filteredMovies
+              .filter(obj => obj.title.includes(searchTerm))
+              .map(filteredObj => (
+                <MovieCard key={filteredObj._id} movie={filteredObj} />
+              ))}
+          </div>
         </Fragment>
       ) : null}
-      
-    
-    
     </div>
   );
 };

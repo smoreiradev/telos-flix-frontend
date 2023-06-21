@@ -6,7 +6,7 @@ export default function MovieProvider({ children }) {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [freeMovies, setFreeMovies] = useState([]);
   const [genres, setGenres] = useState([]);
-
+  const [flashMessage, setFlashMessage] = useState("");
   const apiURL = "http://localhost:3333/movies";
 
   const fetchMovies = async () => {
@@ -42,7 +42,7 @@ export default function MovieProvider({ children }) {
   const moviesData = [...trendingMovies, ...freeMovies];
   return (
     <MovieContext.Provider
-      value={{ trendingMovies, freeMovies, genres, apiURL, moviesData }}
+      value={{ trendingMovies, freeMovies, genres, apiURL, moviesData, flashMessage, setFlashMessage, }}
     >
       {children}
     </MovieContext.Provider>

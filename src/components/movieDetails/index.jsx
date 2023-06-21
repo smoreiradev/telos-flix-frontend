@@ -12,6 +12,7 @@ import RateMovieModal from "../../components/rateMovieModal";
 import CustomizedProgressBars from "../../components/progressBar";
 import { MovieContext } from "../../contexts/MovieContext";
 import { AuthContext } from "../../contexts/AuthContext";
+import FlashMessage from "../flashMessage";
 
 function MovieDetails() {
   const [open, setOpen] = useState(false);
@@ -22,21 +23,41 @@ function MovieDetails() {
   const movie = movies.find((movie) => movie?._id === id);
   const navigate = useNavigate();
   const {isLoggedIn} = useContext(AuthContext);
+  const [rateModalOpen, setRateModalOpen] = useState(false);
+  const [flashMessage, setFlashMessage] = useState('');
 
   if (!movie) {
     return <h2>Carregando...</h2>;   
   }
 
+  const showFlashMessage = (message) => {
+    setFlashMessage(message);
+    setTimeout(() => {
+      setFlashMessage("");
+    }, 3000); // Hide the flash message after 3 seconds
+  };
+
   function handleWatchButton () {
     if(isLoggedIn) {
       navigate(`/video/${id}/video_player`);
     } else {
-      alert("Para assistir o filme, é necessário fazer login.");
+      showFlashMessage("Para assistir o filme, é necessário fazer login.");
+    }
+  }
+
+  function handleRateButton() {
+    if (isLoggedIn) {
+      setRateModalOpen(true);
+    } else {
+      showFlashMessage("Please log in to rate the movie.");
     }
   }
 
   return (
     <div className="bodyMovieInformations">
+      {flashMessage && (
+        <FlashMessage message={flashMessage} onClose={() => setFlashMessage("")} />
+      )}
       <div className="VideoCard" style={{ backgroundImage: `url(${movie?.image})`, backgroundSize: "cover",
   backgroundPosition: "center",}}>
         <h1 className="MovieTitle">
@@ -44,7 +65,7 @@ function MovieDetails() {
         </h1>
         <div className="VideoCard__buttons">
           <WatchButton onClick={() => handleWatchButton()} />
-          <RateButton onClick={() => setOpen(true)} />
+          <RateButton onClick={() => handleRateButton()} />
         </div>
       </div>
       <div className="Footer">
@@ -116,7 +137,7 @@ function MovieDetails() {
           <Carousel />
         </div>
       </div>
-      <RateMovieModal open={open} setOpen={setOpen} />
+      <RateMovieModal open={rateModalOpen} setOpen={setRateModalOpen} />
     </div>
   );
 }

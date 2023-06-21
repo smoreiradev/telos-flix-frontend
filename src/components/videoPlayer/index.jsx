@@ -17,7 +17,7 @@ const VideoPlayer = () => {
   function getVideoUrl() {
     if (foundVideo) {
       return foundVideo.video;
-    }
+      }
     return null;
   }
 
@@ -36,14 +36,14 @@ const VideoPlayer = () => {
           boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)',
         }}
       >
-        {getVideoUrl() && isLoggedIn ? (
+        {getVideoUrl() && (
           <ReactPlayer
             url={getVideoUrl()}
             width={width}
             height={height}
             controls
           />
-        ): <ProtectedRoutes />}
+        )}
       </div>
     </div>
   );

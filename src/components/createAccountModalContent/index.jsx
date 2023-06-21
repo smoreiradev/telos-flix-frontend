@@ -17,6 +17,7 @@ import PasswordOutlinedInput from "../passwordOutlinedInput";
 import PrimaryGradientButton from "../primaryGrandientButton";
 import "./index.css";
 import { AuthContext } from "../../contexts/AuthContext";
+import FlashMessage from "../flashMessage";
 
 function CreateAccountModalContent() {
   const [name, setName] = useState("");
@@ -25,6 +26,14 @@ function CreateAccountModalContent() {
   const [birthDate, SetBirthDate] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [flashMessage, setFlashMessage] = useState('');
+
+  const showFlashMessage = (message) => {
+    setFlashMessage(message);
+    setTimeout(() => {
+      setFlashMessage("");
+    }, 3000); // Hide the flash message after 3 seconds
+  };
 
   const { register } = useContext(AuthContext);
   const { isLoggedIn } = useContext(AuthContext);
@@ -37,14 +46,14 @@ function CreateAccountModalContent() {
 
   const handleSignUp = async() => {
     if(!name || !email || !password ||!phone ||!birthDate ||!confirmPassword){
-       return alert("Preencha todos os campos")
+       return showFlashMessage("Preencha todos os campos")
     }
     
     try {
       await register(name, email, password, phone, birthDate, confirmPassword);
     } catch (error) {
       console.error("Registration error:", error);
-      alert("Erro ao cadastrar usuário. Por favor, tente novamente.");
+      showFlashMessage("Erro ao cadastrar usuário. Por favor, tente novamente.");
     }
   };
 
@@ -52,6 +61,11 @@ function CreateAccountModalContent() {
     <>
     { !isLoggedIn ? (
       <div className="createAccountModalContent">
+        <div className="flashMessageContainer">
+          {flashMessage && (
+            <FlashMessage message={flashMessage} onClose={() => setFlashMessage("")} />
+          )}
+        </div>
         <Fragment>
           <div className="firstSection">
             <span>Crie sua conta</span>
@@ -105,19 +119,12 @@ function CreateAccountModalContent() {
                 />
               </div>
               <div className="inputContainer" style={{ marginTop: "46px" }}>
-                <label className="inputLabel">Data de nascimento</label>
-                <CustomOutlinedInput
-                  setValue={SetBirthDate}
-                  onChange={e => SetBirthDate(e.target.value)}
-                  placeholder="Data de nascimento"
-                  type="date"
-                />
               </div>
             </FormControl>
           </div>
           <div className="secondSection">
             <FormControl sx={{ m: 1, width: "366px" }}>
-              <div className="inputContainer" style={{ marginTop: "56px" }}>
+              <div className="inputContainer" style={{ marginTop: "152px" }}>
                 <label className="inputLabel">Senha</label>
                 <PasswordOutlinedInput setValue={setPassword} onChange={e => setPassword(e.target.value)}/>
               </div>
@@ -126,12 +133,12 @@ function CreateAccountModalContent() {
                 <PasswordOutlinedInput setValue={setConfirmPassword} onChange={e => setConfirmPassword(e.target.value)}placeholder="Confirmar Senha" />
               </div>
               <FormControlLabel
-                sx={{ marginTop: "42px" }}
+                sx={{ marginBottom: "-25px", marginTop:"20px" }}
                 control={<Checkbox style={{ color: "#404040" }} defaultChecked />}
                 label="Aceito os termos de uso da plataforma"
               />
               <div className="buttonsSection">
-                <PrimaryGradientButton text="Entrar" onClick={handleSignUp}/>
+                <PrimaryGradientButton text="Entrar" onClick={handleSignUp} />
               </div>
             </FormControl>
           </div>

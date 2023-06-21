@@ -1,9 +1,9 @@
 .miniVideoCard {
   /* Styles for the container div */
   position: relative;
-  width: 100%;
+  width: 90%;
   height: 0;
-  padding-bottom: 56.25%; /* Assuming a 16:9 aspect ratio, adjust as needed */
+  padding-bottom: 84.37%; /* Assuming a 16:9 aspect ratio, adjust as needed */
 }
 
 .miniVideoCard img {
@@ -11,18 +11,11 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 62.5%;
   height: 100%;
-  object-fit: cover; /* Ensures the image fills the container without distortion */
-  border-radius: 4px; /* Example: Apply border radius to the image */
+  object-fit: scale-down; /* Ensures the image fills the container without distortion */
+  border-radius: 4px; /* Apply border radius to the image */
   z-index: 1;
   text-align: center;
-}
-
-.miniVideoCard .title {
-  color: white;
-  position: relative;
-  z-index: 2;
-  padding-top: 9.9em;
-  font-weight: 800;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Add box shadow to the image */
 }

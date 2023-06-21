@@ -116,7 +116,7 @@ const ProfileComponent = ({ user, onLogout }) => {
         </Grid>
         <Grid item>
           <IconButton onClick={onLogout}>
-            <Logout style={{ marginRight: '-50px', color: '#eeeeee', opacity: '0.2' }} />
+            <Logout style={{marginRight: '-50px', color: '#eeeeee', opacity: '0.2'}}/>
           </IconButton>
         </Grid>
       </Grid>
@@ -128,8 +128,13 @@ export default function Header() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [contentToShow, setContentToShow] = useState();
-  const { storedUser, logout } = useContext(AuthContext);
+  const { storedUser, setStoredUser, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    // Perform logout logic here
+    setStoredUser(null);
+  };
 
   useEffect(() => {
     if (storedUser) {
@@ -210,6 +215,7 @@ export default function Header() {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
+              marginLeft: "15px",
             }}
           >
             <ListItem key="Home" disablePadding sx={{ display: "block" }}>

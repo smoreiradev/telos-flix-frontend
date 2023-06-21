@@ -1,4 +1,3 @@
-import { SignalCellularAltOutlined } from "@mui/icons-material";
 import React, { useContext, useEffect, useState } from "react";
 import "./index.css";
 import MiniVideoCard from "../miniVideoCard";
@@ -32,7 +31,7 @@ async function filterMoviesByImageAvailability(movies) {
       filteredMovies.push(movie);
     }
 
-    if (filteredMovies.length === 3) {
+    if (filteredMovies.length === 4) {
       break; // Exit the loop after adding three movies
     }
   }
@@ -57,9 +56,7 @@ function Trending() {
 
   return (
     <div className="trendingSection">
-      <div className="labelSection">
-        <SignalCellularAltOutlined /> Em alta
-      </div>
+      <div className="labelSection" style={{marginLeft: "60px"}}> Em alta</div>
       <div className="trendingVideosGrid">
         {filteredMovies.map((movie) => (
           movie ? (
@@ -68,7 +65,7 @@ function Trending() {
                 textDecoration: "none",
                 color: "#EEEEEE",
               }}
-              to={`/video/${movie._id}`}
+              to={`/movies/${movie._id}`}
               key={movie._id}
             >
               <MiniVideoCard image={movie.image} />

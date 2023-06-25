@@ -25,7 +25,7 @@ const FlashMessage = ({ message, onClose }) => {
     <div className="flash-message">
       <div className="message-container">
         <p>{message}</p>
-        <button onClick={onClose}><p>x</p></button>
+        <button className="close-button" onClick={onClose}><p>x</p></button>
       </div>
       <div className="loading-line" style={{ width: `${(countdown / 3) * 100}%` }} />
     </div>

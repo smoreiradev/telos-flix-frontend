@@ -45,7 +45,7 @@ function CreateAccountModalContent() {
   }, [isLoggedIn]);
 
   const handleSignUp = async() => {
-    if(!name || !email || !password ||!phone ||!birthDate ||!confirmPassword){
+    if(!name || !email || !password ||!phone ||!confirmPassword){
        return showFlashMessage("Preencha todos os campos")
     }
     

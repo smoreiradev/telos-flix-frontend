@@ -66,7 +66,7 @@ function Trending() {
                 textDecoration: "none",
                 color: "#EEEEEE",
               }}
-              to={`/movies/${movie._id}`}
+              to={`movies/${movie._id}`}
               key={movie._id}
             >
               <MiniVideoCard image={movie.image} />

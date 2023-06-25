@@ -35,7 +35,7 @@ export default function AppRoutes() {
                 <MovieDetails />
 
               }
-              path="/video/:id"
+              path="/movies/:id"
             />
             <Route
               element={

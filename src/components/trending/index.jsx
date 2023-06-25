@@ -32,7 +32,7 @@ async function filterMoviesByImageAvailability(movies) {
     }
 
     if (filteredMovies.length === 4) {
-      break; // Exit the loop after adding three movies
+      break; // Exit the loop after adding four movies
     }
   }
 
@@ -40,7 +40,8 @@ async function filterMoviesByImageAvailability(movies) {
 }
 
 function Trending() {
-  const { apiURL, trendingMovies } = useContext(MovieContext);
+  const { trendingMovies } = useContext(MovieContext);
+  console.log(trendingMovies);
   const movies = trendingMovies || [];
 
   const [filteredMovies, setFilteredMovies] = useState([]);
@@ -65,7 +66,7 @@ function Trending() {
                 textDecoration: "none",
                 color: "#EEEEEE",
               }}
-              to={`/video/${movie._id}`}
+              to={`/movies/${movie._id}`}
               key={movie._id}
             >
               <MiniVideoCard image={movie.image} />

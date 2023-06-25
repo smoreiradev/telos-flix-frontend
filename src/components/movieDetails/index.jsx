@@ -49,7 +49,7 @@ function MovieDetails() {
     if (isLoggedIn) {
       setRateModalOpen(true);
     } else {
-      showFlashMessage("Please log in to rate the movie.");
+      showFlashMessage("Para avaliar o filme, é nessecário fazer login.");
     }
   }
 

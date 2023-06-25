@@ -14,8 +14,8 @@ export default function MovieProvider({ children }) {
       const moviesResponse = await axios.get(apiURL);
       const allData = moviesResponse.data;
 
-      setTrendingMovies(allData.pages[0].movies);
-      setFreeMovies(allData.pages[1].movies);
+      setTrendingMovies(allData.slice(0, 5));
+      setFreeMovies(allData.slice(5, 9));
 
     } catch (error) {
       console.error(error);
@@ -24,7 +24,7 @@ export default function MovieProvider({ children }) {
 
   const fetchMoviesGenres = async () => {
     try {
-      const moviesGenres = await axios.get(`${apiURL}-genres`);
+      const moviesGenres = await axios.get(`${apiURL}/genres`);
       const allGenres = moviesGenres.data;
 
       setGenres(allGenres);

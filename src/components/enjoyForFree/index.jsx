@@ -66,7 +66,7 @@ function EnjoyForFree() {
                 textDecoration: "none",
                 color: "#EEEEEE",
               }}
-              to={`/video/${movie._id}`}
+              to={`/movies/${movie._id}`}
               key={movie._id}
             >
               <MiniVideoCard image={movie.image} />

@@ -1,6 +1,6 @@
-import React, { 
-useState, 
-useContext,
+import React, {
+  useState,
+  useContext,
 } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import WatchButton from "../../components/watchButton";
@@ -22,12 +22,12 @@ function MovieDetails() {
   // Encontra o filme correspondente com base no ID
   const movie = movies.find((movie) => movie?._id === id);
   const navigate = useNavigate();
-  const {isLoggedIn} = useContext(AuthContext);
+  const { isLoggedIn } = useContext(AuthContext);
   const [rateModalOpen, setRateModalOpen] = useState(false);
   const [flashMessage, setFlashMessage] = useState('');
 
   if (!movie) {
-    return <h2>Carregando...</h2>;   
+    return <h2>Carregando...</h2>;
   }
 
   const showFlashMessage = (message) => {
@@ -37,8 +37,8 @@ function MovieDetails() {
     }, 3000); // Hide the flash message after 3 seconds
   };
 
-  function handleWatchButton () {
-    if(isLoggedIn) {
+  function handleWatchButton() {
+    if (isLoggedIn) {
       navigate(`/video/${id}/video_player`);
     } else {
       showFlashMessage("Para assistir o filme, é necessário fazer login.");
@@ -58,8 +58,14 @@ function MovieDetails() {
       {flashMessage && (
         <FlashMessage message={flashMessage} onClose={() => setFlashMessage("")} />
       )}
-      <div className="VideoCard" style={{ backgroundImage: `url(${movie?.image})`, backgroundSize: "cover",
-  backgroundPosition: "center",}}>
+      <div className="VideoCard"
+        style={{
+          backgroundImage: `url(${movie?.image})`,
+          backgroundSize: "contain",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}>
+
         <h1 className="MovieTitle">
           {movie?.title} {/* Exibe o nome do filme */}
         </h1>

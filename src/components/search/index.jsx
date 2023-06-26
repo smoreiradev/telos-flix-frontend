@@ -6,6 +6,7 @@ import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { useContext } from 'react';
 import { MovieContext } from '../../contexts/MovieContext';
+import { Link } from 'react-router-dom';;
 
 const SearchBar = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -50,11 +51,13 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const MovieCard = ({ movie }) => {
   return (
     <div className="movie-card">
-      <img
-        className="movie-card__image"
-        src={movie.image}
-        alt={movie.title}
-      />
+      <Link to={`/movies/${movie._id}`}>
+        <img
+          className="movie-card__image"
+          src={movie.image}
+          alt={movie.title}
+        />
+      </Link>
     </div>
   );
 };

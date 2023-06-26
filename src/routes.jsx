@@ -11,6 +11,7 @@ import VideoPlayer from "./components/videoPlayer";
 import AuthProvider from "./contexts/AuthProvider";
 import Header from "./components/header";
 import Search from "./components/search";
+import MovieGenres from "./components/movieGenres";
 
 export default function AppRoutes() {
   return (
@@ -60,6 +61,14 @@ export default function AppRoutes() {
               }
               path="/search"
             />
+
+            <Route
+              element={
+                <MovieGenres />
+              }
+              path="/movies/genres/:genre"
+            />
+
           </Routes>
         </BrowserRouter>
       </AuthProvider>

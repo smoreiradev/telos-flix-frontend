@@ -6,6 +6,7 @@ import {
 
 import { MovieContext } from "../../contexts/MovieContext";
 import "./index.css";
+import {Link} from "react-router-dom";
 
 
 function DontKnowWhatToWatch() {
@@ -17,12 +18,14 @@ function DontKnowWhatToWatch() {
       <div className="labelSection"> Ainda não sabe o que assistir?</div>
       <div className="dontKnowWhatToWatchgrid">
         {genres.map((genre) => (
-          <Button className="categoryButton" key={genre}>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              {genre}
-            </div>
-            <ArrowForward />
-          </Button>
+          <Link to={`movies/genres/${genre}`} key={genre}>
+            <Button className="categoryButton">
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                {genre}
+              </div>
+              <ArrowForward />
+            </Button>
+          </Link>
         ))}
       </div>
     </div>

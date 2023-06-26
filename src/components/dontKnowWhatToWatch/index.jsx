@@ -18,7 +18,7 @@ function DontKnowWhatToWatch() {
       <div className="labelSection"> Ainda não sabe o que assistir?</div>
       <div className="dontKnowWhatToWatchgrid">
         {genres.map((genre) => (
-          <Link to={`movies/genres/${genre}`} key={genre}>
+          <Link to={`movies/genres/${genre}`} key={genre} style={{ textDecoration: 'none'}}>
             <Button className="categoryButton">
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 {genre}

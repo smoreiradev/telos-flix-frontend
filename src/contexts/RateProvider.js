@@ -1,5 +1,4 @@
-import React, {useState, createContext, useEffect} from "react";
-import { RateContext } from "./RateContext";
+import React, { useState, createContext, useEffect } from "react";
 import axios from "axios";
 import FlashMessage from "../components/flashMessage";
 
@@ -7,7 +6,7 @@ const apiURL = 'http://localhost:3333';
 
 export const RateContext = createContext();
 
-export default  function RateProvider ({ children }) {
+export default function RateProvider({ children }) {
   const [rateData, setRateData] = useState([]);
   const [flashMessage, setFlashMessage] = useState('');
   const [comments, setComments] = useState([]);
@@ -16,16 +15,16 @@ export default  function RateProvider ({ children }) {
     setFlashMessage(message);
   };
 
-  const movieRating = async({movie_id, content, rating}) => {
+  const movieRating = async ({ movie_id, content, rating }) => {
     try {
       const ratingResponse = await axios.post(`${apiURL}/comments`, {
-        movie_id, 
-        content, 
+        movie_id,
+        content,
         rating
       });
       if (ratingResponse.status === 200) {
-        setRateData(movie_id, content, rating);
-        showFlashMessage(`Comentário adicionado com sucesso.`)
+        setRateData(ratingResponse.data);
+        showFlashMessage(`Comentário adicionado com sucesso.`);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -34,7 +33,7 @@ export default  function RateProvider ({ children }) {
 
   const fetchComments = async ({ movie_id }) => {
     try {
-      const response = await axios.get(`${apiURL}/comments/${movie_id}`); 
+      const response = await axios.get(`${apiURL}/comments/${movie_id}`);
       setComments(response.data);
     } catch (error) {
       console.error('Error:', error);
@@ -42,18 +41,20 @@ export default  function RateProvider ({ children }) {
   };
 
   useEffect(() => {
-    movieRating();
-    fetchComments();
-  }, [])
+    // Perform initial fetchComments or movieRating based on your requirement
+    fetchComments({ movie_id: 'your_movie_id' });
+    // movieRating({ movie_id: 'your_movie_id', content: 'your_comment', rating: 5 });
+  }, []);
 
   const RateContextValue = {
     movieRating,
+    fetchComments
   };
 
-  return(
-    <RateContextValue.Provider value={RateContextValue}>
+  return (
+    <RateContext.Provider value={RateContextValue}>
       {flashMessage && <FlashMessage message={flashMessage} onClose={() => setFlashMessage('')} />}
       {children}
-    </RateContextValue.Provider>
+    </RateContext.Provider>
   );
 }

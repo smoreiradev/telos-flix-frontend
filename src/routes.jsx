@@ -12,6 +12,7 @@ import AuthProvider from "./contexts/AuthProvider";
 import Header from "./components/header";
 import Search from "./components/search";
 import MovieGenres from "./components/movieGenres";
+import RateProvider from "./contexts/RateProvider";
 
 export default function AppRoutes() {
   return (
@@ -32,8 +33,9 @@ export default function AppRoutes() {
 
             <Route
               element={
-
+              <RateProvider>
                 <MovieDetails />
+              </RateProvider>
 
               }
               path="/movies/:id"
@@ -48,11 +50,11 @@ export default function AppRoutes() {
             />
             <Route
               element={
-                <ProtectedRoutes >
+                <ProtectedRoutes>
                   <VideoPlayer />
                 </ProtectedRoutes>
               }
-              path="/video/:id/video_player"
+              path="/movies/:id/video_player"
             />
 
             <Route

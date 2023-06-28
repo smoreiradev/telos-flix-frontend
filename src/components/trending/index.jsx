@@ -23,21 +23,22 @@ async function checkImageAvailability(imageUrl) {
 async function filterMoviesByImageAvailability(movies) {
   const filteredMovies = [];
 
-  for (let i = 0; i < movies.length; i++) {
+  let count = 0; // Track the number of movies added
+
+  for (let i = 0; i < movies.length && count < 4; i++) {
     const movie = movies[i];
     const isImageAvailable = await checkImageAvailability(movie.image);
 
     if (isImageAvailable) {
       filteredMovies.push(movie);
-    }
-
-    if (filteredMovies.length === 4) {
-      break; // Exit the loop after adding four movies
+      count++;
     }
   }
 
   return filteredMovies;
 }
+
+
 
 function Trending() {
   const { trendingMovies } = useContext(MovieContext);

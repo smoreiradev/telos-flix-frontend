@@ -2,7 +2,7 @@ import { OutlinedInput } from '@mui/material';
 import React, { useContext, useState } from 'react';
 import './index.css';
 import RattingStars from '../rattingStars';
-import { RateContext } from '../../contexts/RateContext'; // Update the path to your RateProvider file
+import { RateContext } from '../../contexts/RateContext';
 import { useParams } from 'react-router-dom';
 
 function RateMovieModalContent() {

@@ -15,7 +15,8 @@ export default function MovieProvider({ children }) {
 
   const fetchMovies = async () => {
     try {
-      const moviesResponse = await axios.get(apiURL);
+      const token = JSON.parse(localStorage.getItem('user'))?.token;
+      const moviesResponse = await axios.get(apiURL, {headers:{'Authorization': `Bearer ${token}`}});
       const allData = moviesResponse.data;
 
       setTrendingMovies(allData.slice(0, 5));

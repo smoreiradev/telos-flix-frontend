@@ -39,7 +39,7 @@ function MovieDetails() {
 
   function handleWatchButton() {
     if (isLoggedIn) {
-      navigate(`/video/${id}/video_player`);
+      navigate(`/movies/${id}/video_player`);
     } else {
       showFlashMessage("Para assistir o filme, é necessário fazer login.");
     }
@@ -58,6 +58,9 @@ function MovieDetails() {
       {flashMessage && (
         <FlashMessage message={flashMessage} onClose={() => setFlashMessage("")} />
       )}
+      <h1 className="MovieTitle">
+          {movie?.title}
+      </h1>
       <div className="VideoCard"
         style={{
           backgroundImage: `url(${movie?.image})`,
@@ -66,9 +69,7 @@ function MovieDetails() {
           backgroundRepeat: "no-repeat",
         }}>
 
-        <h1 className="MovieTitle">
-          {movie?.title} {/* Exibe o nome do filme */}
-        </h1>
+        
         <div className="VideoCard__buttons">
           <WatchButton onClick={() => handleWatchButton()} />
           <RateButton onClick={() => handleRateButton()} />

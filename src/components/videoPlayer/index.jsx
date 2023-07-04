@@ -12,12 +12,12 @@ const VideoPlayer = () => {
   const foundVideo = moviesData.find(video => video._id === id);
   const width = '1000px';
   const height = '550px';
-  const { isLoggedIn } = useContext(AuthContext);
 
   function getVideoUrl() {
+    console.log(foundVideo);
     if (foundVideo) {
       return foundVideo.video;
-      }
+    }
     return null;
   }
 

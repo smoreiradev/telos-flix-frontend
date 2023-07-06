@@ -2,8 +2,6 @@
   background: #292929;
   border: 1px solid rgba(238, 238, 238, 0.05);
   border-radius: 20px;
-  /* width: 327px;
-  height: 178px; */
   width: 347px;
   height: 190px;
   display: flex;
@@ -43,8 +41,6 @@
 }
 
 .CommentCardContent{
-  /* width: 279px;
-  height: 128px; */
   width: 319px;
   height: 158px;
   display: flex;

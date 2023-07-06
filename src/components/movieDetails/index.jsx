@@ -58,9 +58,6 @@ function MovieDetails() {
       {flashMessage && (
         <FlashMessage message={flashMessage} onClose={() => setFlashMessage("")} />
       )}
-      <h1 className="MovieTitle">
-          {movie?.title}
-      </h1>
       <div className="VideoCard"
         style={{
           backgroundImage: `url(${movie?.image})`,

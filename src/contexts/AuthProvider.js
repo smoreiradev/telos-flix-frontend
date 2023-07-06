@@ -20,6 +20,7 @@ export default function AuthProvider ({ children }) {
       });
       if (loginResponse.status === 200) {
         localStorage.setItem("user", JSON.stringify(loginResponse.data));
+        const token = JSON.parse(localStorage.getItem('user')).token;
         const userData = loginResponse.data; 
         const role = userData.role;
         showFlashMessage(`Bem vindo(a) de volta, ${userData.name}!`);
@@ -76,10 +77,12 @@ export default function AuthProvider ({ children }) {
     isLoggedIn: JSON.parse(storedUser) != null,
   };
 
-  return(
+  return (
+  <>
+    {flashMessage && <FlashMessage message={flashMessage} onClose={() => setFlashMessage('')} />}
     <AuthContext.Provider value={AuthContextValue}>
-      {flashMessage && <FlashMessage message={flashMessage} onClose={() => setFlashMessage('')} />}
       {children}
     </AuthContext.Provider>
-  );
+  </>
+);
 }
